@@ -6,6 +6,10 @@ SUPPORTED_TYPES = {
     '.pdf': 'pdf',
     '.docx': 'docx',
     '.txt': 'txt',
+    '.png': 'image',
+    '.jpg': 'image',
+    '.jpeg': 'image',
+    '.mp4': 'video',
 }
 
 def detect_file_type(filename: str) -> Literal['pdf', 'docx', 'txt', 'unsupported']:
