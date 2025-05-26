@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pdfplumber
+python-docx
+psycopg2-binary
+SQLAlchemy
+pydantic
+python-multipart
+Jinja2 
