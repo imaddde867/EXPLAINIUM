@@ -14,6 +14,21 @@
 
 ---
 
+## Step 1: Core Foundation (Complete)
+
+- Document upload, routing, and text extraction (PDF, DOCX, TXT)
+- PostgreSQL schema and API framework
+- Simple web interface for uploading and previewing results
+
+**How to use:**
+- Run the app and visit [http://localhost:8000/](http://localhost:8000/) for the web UI
+- Or use the API endpoints:
+    - `POST /api/v1/documents/upload` (PDF, DOCX, TXT)
+    - `GET /api/v1/documents/{id}/status`
+    - `GET /api/v1/documents/{id}/content`
+
+---
+
 ### 2. Architecture Components
 
 #### 2.1 Input Layer - Document Ingestion Service
@@ -210,10 +225,10 @@ import clip_model
 ### 6. Implementation Roadmap
 
 #### Step 1: Core Foundation
-- [ ] Document ingestion and routing system
-- [ ] Basic text extraction (PDF, DOCX, TXT)
-- [ ] PostgreSQL schema and API framework
-- [ ] Simple web interface for testing
+- [x] Document ingestion and routing system
+- [x] Basic text extraction (PDF, DOCX, TXT)
+- [x] PostgreSQL schema and API framework
+- [x] Simple web interface for testing
 
 #### Step 2: Multi-Modal Processing 
 - [ ] OCR integration for scanned documents
