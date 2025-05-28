@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="390 347 1343 801" width="1343" height="801">
+  <defs/>
+  <g id="Canvas_2" stroke="none" fill-opacity="1" stroke-opacity="1" stroke-dasharray="none" fill="none">
+    <title>Canvas 2</title>
+    <rect fill="white" x="390" y="347" width="1343" height="801"/>
+    <g id="Canvas_2_Layer_1">
+      <title>Layer 1</title>
+      <g id="Graphic_2">
+        <rect x="391.23438" y="420.8008" width="211.76562" height="241.69922" fill="white"/>
+        <rect x="391.23438" y="420.8008" width="211.76562" height="241.69922" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(396.23438 441.4264)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">Entreprise Documentation</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="41" xml:space="preserve">Manuals</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="67" xml:space="preserve">Videos </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="93" xml:space="preserve">Training Materials</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="119" xml:space="preserve">Photos</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="145" xml:space="preserve">Emails</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="171" xml:space="preserve">Reports</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="197" xml:space="preserve">Scientific Articles…</tspan>
+        </text>
+      </g>
+      <g id="Graphic_3">
+        <rect x="603" y="420.8008" width="64.5" height="241.69922" fill="white"/>
+        <rect x="603" y="420.8008" width="64.5" height="241.69922" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(608 441.4264)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">PDF</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="41" xml:space="preserve">DOCX</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="67" xml:space="preserve">XLSX</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="93" xml:space="preserve">PPTX</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="119" xml:space="preserve">PNG</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="145" xml:space="preserve">JPG</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="171" xml:space="preserve">MP4</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="197" xml:space="preserve">CAD…</tspan>
+        </text>
+      </g>
+      <g id="Graphic_4">
+        <rect x="391.23438" y="348.5" width="276.26562" height="72.42578" fill="#ffc0c0"/>
+        <rect x="391.23438" y="348.5" width="276.26562" height="72.42578" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(396.23438 375.4889)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="17.116812" y="15" xml:space="preserve">COMPANY TACIT KNOWLEDGE</tspan>
+        </text>
+      </g>
+      <g id="Graphic_8">
+        <rect x="746.2344" y="420.8008" width="276.26562" height="660.1992" fill="white"/>
+        <rect x="746.2344" y="420.8008" width="276.26562" height="660.1992" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_10">
+        <rect x="746.2344" y="348.5" width="276.26562" height="72.42578" fill="#c0ffc0"/>
+        <rect x="746.2344" y="348.5" width="276.26562" height="72.42578" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(751.2344 375.4889)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="87.94881" y="15" xml:space="preserve">EXPLANIUM</tspan>
+        </text>
+      </g>
+      <g id="Graphic_13">
+        <rect x="391.23438" y="753.8594" width="276.26562" height="117.89062" fill="white"/>
+        <rect x="391.23438" y="753.8594" width="276.26562" height="117.89062" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(396.23438 790.5807)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">Sensors (Photon, Lidar, Motion, </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="41" xml:space="preserve">thermometers, Camera, GPS…)</tspan>
+        </text>
+      </g>
+      <g id="Graphic_11">
+        <rect x="391.23438" y="681.5586" width="276.26562" height="72.42578" fill="#ffc0c0"/>
+        <rect x="391.23438" y="681.5586" width="276.26562" height="72.42578" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(396.23438 708.5475)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="32.964813" y="15" xml:space="preserve">MULTIMODAL SENSORING</tspan>
+        </text>
+      </g>
+      <g id="Graphic_15">
+        <rect x="391.30437" y="963.1094" width="276.26562" height="117.89062" fill="white"/>
+        <rect x="391.30437" y="963.1094" width="276.26562" height="117.89062" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(396.30437 1012.8307)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">Task status, logs, stats…</tspan>
+        </text>
+      </g>
+      <g id="Graphic_14">
+        <rect x="391.30437" y="890.8086" width="276.26562" height="72.42578" fill="#ffc0c0"/>
+        <rect x="391.30437" y="890.8086" width="276.26562" height="72.42578" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(396.30437 917.7975)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="16.100813" y="15" xml:space="preserve">AGENT’S GENERATED OUTPUT</tspan>
+        </text>
+      </g>
+      <g id="Graphic_17">
+        <rect x="1101.2344" y="420.8008" width="276.26562" height="660.1992" fill="white"/>
+        <rect x="1101.2344" y="420.8008" width="276.26562" height="660.1992" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_16">
+        <rect x="1101.2344" y="348.5" width="276.26562" height="72.42578" fill="#c0ffff"/>
+        <rect x="1101.2344" y="348.5" width="276.26562" height="72.42578" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1106.2344 375.4889)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="79.80481" y="15" xml:space="preserve">AGENT LAYER</tspan>
+        </text>
+      </g>
+      <g id="Graphic_19">
+        <rect x="1456.2344" y="420.8008" width="276.26562" height="587.6992" fill="white"/>
+        <rect x="1456.2344" y="420.8008" width="276.26562" height="587.6992" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_18">
+        <rect x="1456.2344" y="348.5" width="276.26562" height="72.42578" fill="#ffffc0"/>
+        <rect x="1456.2344" y="348.5" width="276.26562" height="72.42578" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1461.2344 375.4889)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="50.91681" y="15" xml:space="preserve">DELIVERY CHANNELS</tspan>
+        </text>
+      </g>
+      <g id="Graphic_20">
+        <rect x="1456.2344" y="1008.5742" width="276.26562" height="72.42578" fill="white"/>
+        <rect x="1456.2344" y="1008.5742" width="276.26562" height="72.42578" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1461.2344 1035.5631)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="87.05281" y="15" xml:space="preserve">L5 Factory…</tspan>
+        </text>
+      </g>
+      <g id="Graphic_25">
+        <text transform="translate(751.6944 523.4324)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="21.420812" y="15" xml:space="preserve">PROCESSING &amp; KNOWLEDGE </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="83.80481" y="33.448" xml:space="preserve">EXTRACTION</tspan>
+        </text>
+      </g>
+      <g id="Graphic_26">
+        <text transform="translate(752.1544 767.4303)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="39.348813" y="15" xml:space="preserve">SMART SENSOR FUSION</tspan>
+        </text>
+      </g>
+      <g id="Graphic_27">
+        <text transform="translate(752.6144 976.6803)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="40.484813" y="15" xml:space="preserve">REAL-TIME AWARENESS</tspan>
+        </text>
+      </g>
+      <g id="Graphic_29">
+        <path d="M 908.8606 589.21065 L 929.5506 589.21065 L 929.5506 683.1937 L 948.4065 683.1937 L 919.2056 722.5237 L 890.0048 683.1937 L 908.8606 683.1937 Z" fill="#c0ffc0"/>
+        <path d="M 908.8606 589.21065 L 929.5506 589.21065 L 929.5506 683.1937 L 948.4065 683.1937 L 919.2056 722.5237 L 890.0048 683.1937 L 908.8606 683.1937 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_30">
+        <path d="M 862.6338 722.5237 L 841.9437 722.5237 L 841.9437 628.5407 L 823.0879 628.5407 L 852.2888 589.21065 L 881.4896 628.5407 L 862.6338 628.5407 Z" fill="#c0ffc0"/>
+        <path d="M 862.6338 722.5237 L 841.9437 722.5237 L 841.9437 628.5407 L 823.0879 628.5407 L 852.2888 589.21065 L 881.4896 628.5407 L 862.6338 628.5407 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_32">
+        <path d="M 907.5156 829.5178 L 928.2056 829.5178 L 928.2056 896.2701 L 947.0615 896.2701 L 917.8606 935.6001 L 888.6598 896.2701 L 907.5156 896.2701 Z" fill="#c0ffc0"/>
+        <path d="M 907.5156 829.5178 L 928.2056 829.5178 L 928.2056 896.2701 L 947.0615 896.2701 L 917.8606 935.6001 L 888.6598 896.2701 L 907.5156 896.2701 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_31">
+        <path d="M 861.2888 935.6001 L 840.5987 935.6001 L 840.5987 868.8478 L 821.7429 868.8478 L 850.9438 829.5178 L 880.1446 868.8478 L 861.2888 868.8478 Z" fill="#c0ffc0"/>
+        <path d="M 861.2888 935.6001 L 840.5987 935.6001 L 840.5987 868.8478 L 821.7429 868.8478 L 850.9438 829.5178 L 880.1446 868.8478 L 861.2888 868.8478 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_33">
+        <path d="M 667.60465 578.38074 L 667.60465 522.73256 L 746.2897 522.73256 L 746.2897 509.3898 L 773.8 550.55665 L 746.2897 591.7235 L 746.2897 578.38074 Z" fill="#ffc0c0"/>
+        <path d="M 667.60465 578.38074 L 667.60465 522.73256 L 746.2897 522.73256 L 746.2897 509.3898 L 773.8 550.55665 L 746.2897 591.7235 L 746.2897 578.38074 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(672.60465 541.33265)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="29.57768" y="15" xml:space="preserve">INFO</tspan>
+        </text>
+      </g>
+      <g id="Graphic_35">
+        <path d="M 667.5 805.6455 L 667.5 749.9973 L 746.185 749.9973 L 746.185 736.6546 L 773.6954 777.8214 L 746.185 818.98825 L 746.185 805.6455 Z" fill="#ffc0c0"/>
+        <path d="M 667.5 805.6455 L 667.5 749.9973 L 746.185 749.9973 L 746.185 736.6546 L 773.6954 777.8214 L 746.185 818.98825 L 746.185 805.6455 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(672.5 759.3734)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="15.50568" y="15" xml:space="preserve">SENSOR </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="28.97768" y="33.448" xml:space="preserve">DATA</tspan>
+        </text>
+      </g>
+      <g id="Graphic_36">
+        <path d="M 667.60465 1013.7284 L 667.60465 958.0802 L 746.2897 958.0802 L 746.2897 944.7375 L 773.8 985.9043 L 746.2897 1027.0711 L 746.2897 1013.7284 Z" fill="#ffc0c0"/>
+        <path d="M 667.60465 1013.7284 L 667.60465 958.0802 L 746.2897 958.0802 L 746.2897 944.7375 L 773.8 985.9043 L 746.2897 1027.0711 L 746.2897 1013.7284 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(672.60465 967.4563)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="21.58568" y="15" xml:space="preserve">AGENT  </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="28.97768" y="33.448" xml:space="preserve">DATA</tspan>
+        </text>
+      </g>
+      <g id="Graphic_37">
+        <path d="M 1022.5 792.8369 L 1022.5 700.9205 L 1101.0111 700.9205 L 1101.0111 667.2546 L 1139.4891 746.8787 L 1101.0111 826.5028 L 1101.0111 792.8369 Z" fill="#c0ffc0"/>
+        <path d="M 1022.5 792.8369 L 1022.5 700.9205 L 1101.0111 700.9205 L 1101.0111 667.2546 L 1139.4891 746.8787 L 1101.0111 826.5028 L 1101.0111 792.8369 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1027.5 737.6547)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="2.966545" y="15" xml:space="preserve">KNOWLEDGE</tspan>
+        </text>
+      </g>
+      <g id="Graphic_40">
+        <circle cx="1193.8407" cy="715.703" r="43.3543000450382" fill="white"/>
+        <circle cx="1193.8407" cy="715.703" r="43.3543000450382" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1164.1573 706.479)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x=".7953839" y="15" xml:space="preserve">VICTOR</tspan>
+        </text>
+      </g>
+      <g id="Graphic_41">
+        <circle cx="1297.8617" cy="665.48596" r="49.6695451788994" fill="white"/>
+        <circle cx="1297.8617" cy="665.48596" r="49.6695451788994" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1263.1262 656.26196)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="1.6955728" y="15" xml:space="preserve">AGENT-1</tspan>
+        </text>
+      </g>
+      <g id="Graphic_43">
+        <circle cx="1201.4539" cy="929.7619" r="79.6242472506202" fill="white"/>
+        <circle cx="1201.4539" cy="929.7619" r="79.6242472506202" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1142.7546 894.5379)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="5.499295" y="15" xml:space="preserve">OPEN WORLD </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="16.483295" y="41" xml:space="preserve">COGNITIVE </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x=".17929504" y="67" xml:space="preserve">TASK PLANNER</tspan>
+        </text>
+      </g>
+      <g id="Graphic_44">
+        <circle cx="1311.3183" cy="1004.7847" r="36.2129484896467" fill="white"/>
+        <circle cx="1311.3183" cy="1004.7847" r="36.2129484896467" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1287.348 995.5607)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="15.970312" y="15" xml:space="preserve">…</tspan>
+        </text>
+      </g>
+      <g id="Graphic_45">
+        <circle cx="1186.241" cy="804.5975" r="29.200885074709" fill="white"/>
+        <circle cx="1186.241" cy="804.5975" r="29.200885074709" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1167.8804 795.3735)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="10.36067" y="15" xml:space="preserve">…</tspan>
+        </text>
+      </g>
+      <g id="Graphic_46">
+        <path d="M 1256 1081.1308 L 1256 1146.5 L 514.4417 1144.6 L 514.4417 1081.0823 L 500.16635 1081.0823 L 530.5951 1058.1266 L 561.0238 1081.0823 L 546.74844 1081.0823 L 546.88524 1118.5 L 1221.0913 1118 L 1221.0913 1081.1308 Z" fill="#c0ffff"/>
+        <path d="M 1256 1081.1308 L 1256 1146.5 L 514.4417 1144.6 L 514.4417 1081.0823 L 500.16635 1081.0823 L 530.5951 1058.1266 L 561.0238 1081.0823 L 546.74844 1081.0823 L 546.88524 1118.5 L 1221.0913 1118 L 1221.0913 1081.1308 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_52">
+        <path d="M 1346.5195 508.45514 L 1346.5195 493.45514 L 1486.734 493.45514 L 1486.734 485.95514 L 1516.734 500.95514 L 1486.734 515.95514 L 1486.734 508.45514 Z" fill="#c0ffff"/>
+        <path d="M 1346.5195 508.45514 L 1346.5195 493.45514 L 1486.734 493.45514 L 1486.734 485.95514 L 1516.734 500.95514 L 1486.734 515.95514 L 1486.734 508.45514 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_53">
+        <path d="M 1257.0754 590.5155 L 1259.6801 575.7434 L 1547.8466 626.5549 L 1549.149 619.16884 L 1576.0885 639.1504 L 1543.9395 648.7131 L 1545.2419 641.327 Z" fill="#c0ffff"/>
+        <path d="M 1257.0754 590.5155 L 1259.6801 575.7434 L 1547.8466 626.5549 L 1549.149 619.16884 L 1576.0885 639.1504 L 1543.9395 648.7131 L 1545.2419 641.327 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_54">
+        <path d="M 1529 536.1055 L 1529 521.1055 L 1376.5195 521.1055 L 1376.5195 513.6055 L 1346.5195 528.6055 L 1376.5195 543.6055 L 1376.5195 536.1055 Z" fill="#ffffc0"/>
+        <path d="M 1529 536.1055 L 1529 521.1055 L 1376.5195 521.1055 L 1376.5195 513.6055 L 1346.5195 528.6055 L 1376.5195 543.6055 L 1376.5195 536.1055 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_55">
+        <path d="M 1594.0464 677.07935 L 1596.6511 662.3072 L 1289.3238 608.1171 L 1290.6261 600.7311 L 1258.4772 610.29374 L 1285.4167 630.2753 L 1286.719 622.88925 Z" fill="#ffffc0"/>
+        <path d="M 1594.0464 677.07935 L 1596.6511 662.3072 L 1289.3238 608.1171 L 1290.6261 600.7311 L 1258.4772 610.29374 L 1285.4167 630.2753 L 1286.719 622.88925 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_57">
+        <path d="M 1353.4248 798.3799 L 1357.5593 783.961 L 1489.3326 821.7464 L 1491.4 814.5369 L 1516.1032 837.2249 L 1483.1308 843.3747 L 1485.198 836.1653 Z" fill="#c0ffff"/>
+        <path d="M 1353.4248 798.3799 L 1357.5593 783.961 L 1489.3326 821.7464 L 1491.4 814.5369 L 1516.1032 837.2249 L 1483.1308 843.3747 L 1485.198 836.1653 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_56">
+        <path d="M 1531.0623 876.7324 L 1535.1969 862.3134 L 1385.7581 819.4626 L 1387.8254 812.2531 L 1354.853 818.4029 L 1379.5563 841.0909 L 1381.6235 833.8815 Z" fill="#ffffc0"/>
+        <path d="M 1531.0623 876.7324 L 1535.1969 862.3134 L 1385.7581 819.4626 L 1387.8254 812.2531 L 1354.853 818.4029 L 1379.5563 841.0909 L 1381.6235 833.8815 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </g>
+      <g id="Graphic_38">
+        <circle cx="1191.0797" cy="589.8035" r="69.2501106547063" fill="white"/>
+        <circle cx="1191.0797" cy="589.8035" r="69.2501106547063" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1140.6797 567.5795)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="5.2160015" y="15" xml:space="preserve">AR MASTER </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="1.3760015" y="41" xml:space="preserve">APPRENTICE</tspan>
+        </text>
+      </g>
+      <g id="Graphic_39">
+        <circle cx="1295.246" cy="505.0451" r="52.2853572162808" fill="white"/>
+        <circle cx="1295.246" cy="505.0451" r="52.2853572162808" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1258.4177 495.8211)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="1.7162204" y="15" xml:space="preserve">ADAPTAX</tspan>
+        </text>
+      </g>
+      <g id="Graphic_42">
+        <circle cx="1295.8948" cy="795.5592" r="63.1833862171017" fill="white"/>
+        <circle cx="1295.8948" cy="795.5592" r="63.1833862171017" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1250.3481 773.3352)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="15.922627" y="15" xml:space="preserve">SAFETY </tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="4.370627" y="41" xml:space="preserve">GUARDIAN</tspan>
+        </text>
+      </g>
+      <g id="Graphic_48">
+        <rect x="1522.7631" y="806.229" width="90" height="90" fill="white"/>
+        <rect x="1522.7631" y="806.229" width="90" height="90" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1533.7631 816.005)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">L1 (UI)</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="41" xml:space="preserve">L2 (UI)</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="67" xml:space="preserve">L5</tspan>
+        </text>
+      </g>
+      <g id="Graphic_50">
+        <rect x="1585.8913" y="610.8672" width="90" height="90" fill="white"/>
+        <rect x="1585.8913" y="610.8672" width="90" height="90" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1596.8913 646.6432)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">L1 (AR)</tspan>
+        </text>
+      </g>
+      <g id="Graphic_47">
+        <rect x="1522.7631" y="468.9539" width="90" height="90" fill="white"/>
+        <rect x="1522.7631" y="468.9539" width="90" height="90" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1533.7631 478.7299)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">L1</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="41" xml:space="preserve">L3</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="67" xml:space="preserve">L5</tspan>
+        </text>
+      </g>
+      <g id="Graphic_58">
+        <rect x="1598.6413" y="732.3759" width="64.5" height="42.799844" fill="white"/>
+        <rect x="1598.6413" y="732.3759" width="64.5" height="42.799844" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(1609.6413 744.5519)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15" xml:space="preserve">…</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
