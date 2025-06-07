@@ -1,6 +1,8 @@
 # Enterprise Document Processing & Knowledge Extraction System
 ## Technical Architecture & Implementation Plan
 
+![Project Architecture](Project_Architecture/JPG_Architecture.jpg)
+
 ### 1. System Overview
 
 **Core Objective**: Create a scalable, privacy-first document processing system that intelligently extracts and understands multi-modal content from enterprise documents, manuals, videos, and training materials.
