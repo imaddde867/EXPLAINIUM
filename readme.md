@@ -1,260 +1,402 @@
-# Enterprise Document Processing & Knowledge Extraction System
-## Technical Architecture & Implementation Plan
+# EXPLAINIUM - AI Factory Management System
+## Professional Technical Architecture & Implementation Plan
 
-![Project Architecture](Project_Architecture/JPG_Architecture.jpg)
+![EXPLAINIUM Logo](https://img.shields.io/badge/EXPLAINIUM-AI%20Factory%20Management-ffd200?style=for-the-badge&logo=factory&logoColor=black)
 
-### 1. System Overview
-
-**Core Objective**: Create a scalable, privacy-first document processing system that intelligently extracts and understands multi-modal content from enterprise documents, manuals, videos, and training materials.
-
-**Key Requirements**:
-- Multi-modal content processing (text, images, videos, diagrams)
-- Local deployment for privacy/security
-- Industry-agnostic scalability
-- Intelligent content understanding (not just text extraction)
-- Foundation for larger system integration
+*Building a "good life in a smart society" through excellence in applied AI science*
 
 ---
 
-## Step 1: Core Foundation (Complete)
+## 🎯 Executive Summary
 
-- Document upload, routing, and text extraction (PDF, DOCX, TXT)
-- PostgreSQL schema and API framework
-- Simple web interface for uploading and previewing results
+**EXPLAINIUM** is an innovative AI-powered factory management system that creates a comprehensive digital nervous system for industrial operations. By integrating three critical input layers—company tacit knowledge, multimodal sensing, and agent outputs—EXPLAINIUM delivers real-time intelligence through an infinite network of specialized AI agents.
 
-**How to use:**
-- Run the app and visit [http://localhost:8000/](http://localhost:8000/) for the web UI
-- Or use the API endpoints:
-    - `POST /api/v1/documents/upload` (PDF, DOCX, TXT)
-    - `GET /api/v1/documents/{id}/status`
-    - `GET /api/v1/documents/{id}/content`
+### 🏆 Core Value Proposition
+- **360° Factory Intelligence**: Complete visibility and understanding of all factory operations
+- **Predictive Excellence**: Proactive maintenance, safety, and optimization
+- **Adaptive Learning**: Continuous improvement through real-time feedback loops
+- **Privacy-First Architecture**: Secure, on-premises deployment for industrial security
+- **Infinite Scalability**: Unlimited AI agents tailored to specific factory needs
 
----
-
-### 2. Architecture Components
-
-#### 2.1 Input Layer - Document Ingestion Service
-```
-┌─────────────────────────────────────────┐
-│           Document Router               │
-├─────────────────────────────────────────┤
-│ • File type detection & validation      │
-│ • Queue management                      │
-│ • Batch processing orchestration        │
-└─────────────────────────────────────────┘
-```
-
-**Supported Formats**:
-- Documents: PDF, DOCX, XLSX, PPT, TXT, MD
-- Images: PNG, JPG, SVG, technical diagrams
-- Videos: MP4, AVI, MOV, training recordings
-- Specialized: CAD files, machine logs, sensor data
-
-#### 2.2 Multi-Modal Processing Pipeline
-
-##### A. Text Processing Engine
-- **OCR Component**: Tesseract + PaddleOCR for multilingual support
-- **PDF Intelligence**: PyMuPDF + pdfplumber for layout understanding
-- **Table Recognition**: Table-Transformer models for complex table structures
-- **Document Structure**: Detectron2 for layout analysis
-
-##### B. Visual Intelligence Engine
-- **Computer Vision**: YOLO/DETR for object detection in diagrams
-- **Scene Understanding**: CLIP for image-text correlation
-- **Technical Diagrams**: Custom models for flowcharts, schematics
-- **Icon Recognition**: Pre-trained + fine-tuned models for industrial symbols
-
-##### C. Video Processing Engine
-- **Frame Extraction**: OpenCV for key frame identification
-- **Audio Transcription**: Whisper (local deployment)
-- **Visual Scene Analysis**: Video action recognition models
-- **Temporal Understanding**: Segment-based processing for training videos
-
-#### 2.3 Knowledge Extraction & Understanding Layer
-
-```
-┌─────────────────────────────────────────┐
-│        Semantic Processing              │
-├─────────────────────────────────────────┤
-│ • Named Entity Recognition (NER)        │
-│ • Relationship Extraction               │
-│ • Context Understanding                 │
-│ • Domain-specific terminology           │
-└─────────────────────────────────────────┘
-```
-
-**Core NLP Components**:
-- **Local LLM**: Llama 2/3 or Mistral for content understanding
-- **Embeddings**: sentence-transformers for semantic similarity
-- **Domain Adaptation**: Fine-tuning for industry-specific terminology
-- **Knowledge Graphs**: spaCy + networkx for relationship mapping
+### 🎯 Key Objectives
+- Transform traditional factories into intelligent, self-optimizing systems
+- Reduce operational costs by 30-50% through predictive analytics
+- Eliminate safety incidents through real-time monitoring and intervention
+- Accelerate training and knowledge transfer for new employees
+- Create digital twins of factory processes for optimization
 
 ---
 
-### 3. Technical Stack & Implementation
+## 🏗️ System Architecture Overview
 
-#### 3.1 Core Framework
+### 📊 Three-Layer Input Architecture
+
+#### 1️⃣ Company Tacit Knowledge Layer
+**Purpose**: Transform institutional knowledge into actionable intelligence
+
+- **Enterprise Documentation**: Manuals, procedures, policies
+- **Training Materials**: Videos, presentations, e-learning content
+- **Historical Data**: Reports, incident logs, best practices
+- **Multimedia Content**: Images, diagrams, technical drawings
+
+**Processing Pipeline**:
+```
+Documents → OCR/NLP → Knowledge Extraction → Semantic Understanding → Knowledge Graph
+```
+
+#### 2️⃣ Multimodal Sensing Layer
+**Purpose**: Real-time environmental and operational awareness
+
+- **IoT Sensor Network**: Temperature, pressure, vibration, humidity
+- **Computer Vision**: Quality inspection, safety monitoring, workflow tracking
+- **Machine Telemetry**: Equipment status, performance metrics, diagnostics
+- **Environmental Monitoring**: Air quality, noise levels, energy consumption
+
+**Processing Pipeline**:
+```
+Raw Sensors → Edge Processing → Data Fusion → Pattern Recognition → Real-time Alerts
+```
+
+#### 3️⃣ Agent Output Layer
+**Purpose**: Continuous learning and system optimization
+
+- **Task Execution Logs**: Agent performance, decision traces
+- **Learning Feedback**: Model improvements, accuracy metrics
+- **Performance Analytics**: KPIs, efficiency measurements
+- **Collaborative Intelligence**: Inter-agent communication, knowledge sharing
+
+**Processing Pipeline**:
+```
+Agent Data → Performance Analysis → Learning Updates → System Optimization → Feedback Loop
+```
+
+---
+
+## 🧠 EXPLAINIUM Core - Central Intelligence Hub
+
+### 🔄 Processing & Knowledge Extraction Engine
+
+**Mission**: Transform raw data into actionable factory intelligence
+
+#### Document Intelligence Pipeline
+- **Multi-format Processing**: PDF, DOCX, XLSX, PPT, images, videos
+- **Advanced OCR**: Tesseract + PaddleOCR for multilingual support
+- **Layout Understanding**: Detectron2 for document structure analysis
+- **Table Recognition**: Table-Transformer for complex data extraction
+- **Technical Diagram Analysis**: Custom models for flowcharts and schematics
+
+#### Smart Sensor Fusion Engine
+- **Real-time Data Processing**: Stream processing with Apache Kafka
+- **Pattern Recognition**: ML models for anomaly detection
+- **Predictive Analytics**: Time-series forecasting for maintenance
+- **Multi-sensor Correlation**: Fusion algorithms for comprehensive insights
+
+#### Real-time Awareness System
+- **Context Understanding**: Situation assessment and decision support
+- **Event Correlation**: Cross-system pattern recognition
+- **Alert Generation**: Intelligent notification system
+- **Performance Monitoring**: Real-time KPI tracking and analysis
+
+### 🗄️ Knowledge Base Architecture
+
+```mermaid
+graph LR
+    A[Process Models] --> D[Unified Knowledge Graph]
+    B[Best Practices] --> D
+    C[Historical Patterns] --> D
+    D --> E[Agent Intelligence]
+    D --> F[Decision Support]
+    D --> G[Predictive Models]
+```
+
+**Core Components**:
+- **Process Models**: Digital representations of factory workflows
+- **Best Practices Database**: Curated knowledge from expert operations
+- **Historical Pattern Analysis**: Learning from past performance data
+- **Semantic Knowledge Graph**: Interconnected factory intelligence network
+
+---
+
+## 🎯 Cognitive Workforce - Infinite AI Agent Network
+
+### 🤖 Specialized Agent Categories
+
+#### 🎯 Adaptive Task Planner
+- **Mission**: Dynamic workflow optimization and resource allocation
+- **Capabilities**: Real-time scheduling, bottleneck identification, efficiency optimization
+- **Technologies**: Reinforcement learning, constraint optimization, graph algorithms
+
+#### 🔧 Predictive Maintenance Guardian
+- **Mission**: Prevent equipment failures before they occur
+- **Capabilities**: Vibration analysis, thermal monitoring, wear prediction
+- **Technologies**: Time-series analysis, anomaly detection, digital twin modeling
+
+#### 👨‍🏫 Training & Knowledge Assistant
+- **Mission**: Accelerate employee onboarding and skill development
+- **Capabilities**: Personalized learning paths, AR-guided training, competency assessment
+- **Technologies**: Natural language processing, computer vision, adaptive learning
+
+#### 📊 Workflow Optimization Engine
+- **Mission**: Continuous process improvement and efficiency gains
+- **Capabilities**: Process mining, lean optimization, waste reduction
+- **Technologies**: Process discovery algorithms, simulation modeling, optimization
+
+#### 🛡️ Safety Guardian System
+- **Mission**: Real-time safety monitoring and incident prevention
+- **Capabilities**: PPE detection, hazard identification, emergency response
+- **Technologies**: Computer vision, IoT sensors, risk assessment models
+
+#### 📈 Performance Analytics Hub
+- **Mission**: Comprehensive factory performance insights
+- **Capabilities**: KPI tracking, trend analysis, predictive forecasting
+- **Technologies**: Business intelligence, statistical analysis, machine learning
+
+### 🔄 Agent Orchestration Framework
+
 ```python
-# Primary Stack
-- FastAPI (API layer)
-- Celery + Redis (Task queue)
-- PostgreSQL (Metadata & relationships)
-- Vector DB (Chroma/Weaviate for embeddings)
-- MinIO (Object storage)
-```
+# Multi-Agent Coordination
+class AgentOrchestrator:
+    def __init__(self):
+        self.agents = {
+            'task_planner': AdaptiveTaskPlanner(),
+            'maintenance': PredictiveMaintenanceAgent(),
+            'training': TrainingAssistant(),
+            'workflow': WorkflowOptimizer(),
+            'safety': SafetyGuardian(),
+            'analytics': PerformanceAnalyzer()
+        }
 
-#### 3.2 Processing Libraries
-```python
-# Document Processing
-import pypdf2, pdfplumber, python-docx
-import pandas as pd  # Excel processing
-import cv2, pillow  # Image processing
-
-# ML/AI Components
-import transformers, torch
-import spacy, nltk
-import sentence_transformers
-import whisper  # Audio transcription
-
-# Computer Vision
-import detectron2
-import ultralytics  # YOLO
-import clip_model
-```
-
-#### 3.3 Deployment Architecture
-
-```
-┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
-│   Load Balancer  │    │   API Gateway    │    │   Web Interface  │
-└──────────────────┘    └──────────────────┘    └──────────────────┘
-           │                       │                       │
-┌──────────────────────────────────────────────────────────────────┐
-│                     Processing Cluster                          │
-├──────────────────┬──────────────────┬──────────────────────────┤
-│  Document Proc.  │   Video Proc.    │      NLP Engine          │
-│     Workers      │     Workers      │       Workers            │
-└──────────────────┴──────────────────┴──────────────────────────┘
-           │                       │                       │
-┌──────────────────────────────────────────────────────────────────┐
-│                      Storage Layer                              │
-├──────────────────┬──────────────────┬──────────────────────────┤
-│   File Storage   │    Database      │    Vector Store          │
-│     (MinIO)      │  (PostgreSQL)    │     (Chroma)             │
-└──────────────────┴──────────────────┴──────────────────────────┘
+    def coordinate_agents(self, factory_state):
+        # Real-time agent coordination logic
+        pass
 ```
 
 ---
 
-### 4. Key Technical Challenges & Solutions
+## 🛠️ Technical Implementation Stack
 
-#### 4.1 Visual Information Understanding
+### 🏗️ Core Technology Architecture
 
-**Challenge**: Extracting meaningful information from diagrams, flowcharts, and technical drawings.
+#### 🌐 Edge Computing Layer
+- **MQTT Brokers**: Real-time device communication and messaging
+- **Edge AI Processors**: Local inference for immediate decision-making
+- **IoT Gateways**: Protocol translation and data aggregation
 
-**Solution Strategy**:
+#### 📥 Data Ingestion Layer
+- **Apache Kafka**: High-throughput stream processing and event sourcing
+- **MinIO Object Storage**: Scalable storage for documents and media files
+- **Redis Cache**: High-performance caching and session management
+
+#### ⚙️ Processing Layer
+
+**Document Processing Pipeline**:
 ```python
-# Multi-stage visual processing
-1. Layout Detection → Detectron2 for document structure
-2. Element Classification → Custom CNN for diagram components
-3. Text-Visual Correlation → CLIP for contextual understanding
-4. Relationship Mapping → Graph neural networks for connections
+# Core Framework
+FastAPI          # REST API and async processing
+Celery + Redis   # Background task queue management
+spaCy + Transformers  # NLP and language understanding
+Local LLMs       # Llama 3/Mistral for content analysis
 ```
 
-**Implementation Approach**:
-- Train custom models on industrial diagram datasets
-- Use OCR + spatial analysis for text-in-image correlation
-- Implement symbol recognition for standard industrial icons
-- Create domain-specific visual vocabularies
-
-#### 4.2 Intelligent Table Processing
-
-**Challenge**: Understanding complex table structures, merged cells, and contextual relationships.
-
-**Solution**:
+**ML/AI Processing Stack**:
 ```python
-# Table Intelligence Pipeline
-1. Table Detection → Table-Transformer
-2. Structure Recognition → Custom parsing algorithms
-3. Content Classification → NER on cell contents
-4. Relationship Inference → Semantic analysis
+# Deep Learning & Computer Vision
+PyTorch          # Deep learning framework
+OpenCV           # Computer vision and video processing
+Whisper          # Audio transcription and speech recognition
+Detectron2       # Document layout analysis
 ```
 
-#### 4.3 Video Content Understanding
-
-**Challenge**: Extracting procedural knowledge from training videos and technical demonstrations.
-
-**Solution Framework**:
+**Agent Orchestration Framework**:
 ```python
-# Video Processing Pipeline
-1. Scene Segmentation → Temporal analysis
-2. Key Frame Extraction → Change detection algorithms
-3. Action Recognition → Video transformer models
-4. Audio-Visual Sync → Multimodal understanding
+# Multi-Agent Systems
+LangChain        # Agent orchestration and tool integration
+AutoGen          # Multi-agent collaborative systems
+CrewAI           # Specialized agent coordination
 ```
+
+#### 🗃️ Data Layer Architecture
+
+**Multi-Database Strategy for Optimal Performance**:
+
+```python
+# Database Ecosystem
+PostgreSQL       # Relational data and ACID compliance
+ChromaDB         # Vector embeddings and semantic search
+TimescaleDB      # Time-series sensor data analytics
+Neo4j            # Knowledge graphs and relationship mapping
+```
+
+#### 💻 Application Layer
+
+**User Interface Ecosystem**:
+- **React Frontend**: Modern management dashboards with real-time updates
+- **Streamlit**: Interactive analytics and data visualization interfaces
+- **Gradio**: AI model interfaces for testing and demonstrations
+- **Mobile Apps**: iOS/Android applications for field workers
+
+#### 🏗️ Infrastructure Layer
+
+**Container Orchestration & Deployment**:
+```yaml
+# Kubernetes Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: explainium-core
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: explainium
+  template:
+    spec:
+      containers:
+      - name: api-server
+        image: explainium/api:latest
+        ports:
+        - containerPort: 8000
+```
+
+**Monitoring & Observability**:
+- **Grafana**: Real-time monitoring and alerting dashboards
+- **Prometheus**: Metrics collection and time-series monitoring
+- **ELK Stack**: Centralized logging and log analysis
+- **Jaeger**: Distributed tracing for microservices
 
 ---
 
-### 5. Scalability & Privacy Architecture
+## 📱 Interface Ecosystem - Delivery Channels
 
-#### 5.1 Privacy-First Design
-- **Local Deployment**: All processing on-premises
-- **Data Encryption**: At-rest and in-transit encryption
-- **Access Control**: Role-based permissions
-- **Audit Logging**: Complete processing trails
-- **Data Isolation**: Tenant-specific processing environments
+### 🎯 Multi-Modal User Interfaces
 
-#### 5.2 Scalability Strategy
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Horizontal Scaling                          │
-├─────────────────────────────────────────────────────────────────┤
-│ • Kubernetes orchestration                                      │
-│ • Auto-scaling based on queue depth                           │
-│ • GPU resource pooling for ML workloads                       │
-│ • Distributed storage with replication                        │
-└─────────────────────────────────────────────────────────────────┘
-```
+#### 💻 Management Command Center
+- **Executive Dashboards**: High-level KPIs and strategic insights
+- **Operational Dashboards**: Real-time factory floor monitoring
+- **Analytics Workbench**: Deep-dive analysis and reporting tools
 
-#### 5.3 Industry Adaptability
-- **Plugin Architecture**: Industry-specific processing modules
-- **Configuration Management**: YAML-based processing pipelines
-- **Model Registry**: Swappable ML models per domain
-- **Custom Vocabulary**: Industry-specific terminology systems
+#### 🥽 Immersive AR/VR Interfaces
+- **Training Simulations**: Safe, virtual environment for skill development
+- **Maintenance Guidance**: AR overlays for equipment repair procedures
+- **Process Visualization**: 3D factory models and workflow visualization
+
+#### 🤖 Robotics Integration
+- **Collaborative Robots (Cobots)**: Direct agent-to-robot communication
+- **Autonomous Vehicles**: AGV coordination and path optimization
+- **Robotic Process Automation**: Automated task execution and monitoring
+
+#### 📱 Mobile Workforce Applications
+- **Field Worker Apps**: Real-time task assignments and status updates
+- **Safety Compliance**: Mobile safety checklists and incident reporting
+- **Knowledge Access**: On-demand access to procedures and documentation
 
 ---
 
-### 6. Implementation Roadmap
+## 🚀 Implementation Roadmap & Development Plan
 
-#### Step 1: Core Foundation
-- [x] Document ingestion and routing system
+### 📋 Phase-Based Development Strategy
+
+#### 🏗️ Phase 1: Foundation Layer (Months 1-3)
+**Status**: ✅ **COMPLETED** - PH-1 Implementation
+
+- [x] Document ingestion and processing system
 - [x] Basic text extraction (PDF, DOCX, TXT)
-- [x] PostgreSQL schema and API framework
-- [x] Simple web interface for testing
+- [x] PostgreSQL database schema and API framework
+- [x] Simple web interface for testing and validation
+- [x] Image processing with OCR capabilities
+- [x] Video frame extraction and storage
 
-#### Step 2: Multi-Modal Processing 
-- [ ] OCR integration for scanned documents
-- [ ] Image processing for diagrams and photos
-- [ ] Table detection and extraction
-- [ ] Video frame extraction and basic analysis
+#### 🧠 Phase 2: Intelligence Layer (Months 4-6)
+**Status**: 🔄 **IN PROGRESS**
 
-#### Step 3: Intelligence Layer 
-- [ ] Local LLM integration for content understanding
-- [ ] NER and relationship extraction
-- [ ] Vector embeddings and similarity search
-- [ ] Basic knowledge graph construction
+- [ ] Local LLM integration (Llama 3/Mistral)
+- [ ] Advanced NLP pipeline with entity recognition
+- [ ] Vector embeddings and semantic search (ChromaDB)
+- [ ] Knowledge graph construction (Neo4j)
+- [ ] Multi-modal content understanding
 
-#### Step 4: Advanced Features 
-- [ ] Video content analysis with audio transcription
-- [ ] Advanced diagram understanding
-- [ ] Domain-specific model fine-tuning
-- [ ] Performance optimization and scaling
+#### 🤖 Phase 3: Agent Framework (Months 7-9)
+**Status**: 📋 **PLANNED**
 
-#### Step 5: Production Readiness 
-- [ ] Security hardening and encryption
-- [ ] Monitoring and alerting systems
-- [ ] API documentation and client SDKs
-- [ ] Load testing and performance tuning
+- [ ] Multi-agent orchestration system (LangChain/AutoGen)
+- [ ] Specialized agent development (maintenance, safety, training)
+- [ ] Real-time decision-making capabilities
+- [ ] Agent communication and coordination protocols
+- [ ] Performance monitoring and optimization
+
+#### 🌐 Phase 4: Integration & Deployment (Months 10-12)
+**Status**: 📋 **PLANNED**
+
+- [ ] IoT sensor integration and edge computing
+- [ ] Real-time data streaming (Apache Kafka)
+- [ ] Production-ready deployment (Kubernetes)
+- [ ] Security hardening and compliance
+- [ ] Comprehensive testing and validation
+
+#### 🚀 Phase 5: Advanced Features (Months 13-18)
+**Status**: 📋 **FUTURE**
+
+- [ ] AR/VR interface development
+- [ ] Advanced predictive analytics
+- [ ] Digital twin integration
+- [ ] Industry-specific customizations
+- [ ] Global scaling and optimization
+
+---
+
+## 📊 Success Metrics & Business Impact
+
+### 🎯 Key Performance Indicators (KPIs)
+
+#### 🏭 Operational Excellence Metrics
+- **Equipment Downtime Reduction**: Target 40-60% decrease in unplanned maintenance
+- **Production Efficiency**: 25-35% improvement in overall equipment effectiveness (OEE)
+- **Quality Improvement**: 50-70% reduction in defect rates through predictive quality control
+- **Energy Optimization**: 15-25% reduction in energy consumption through smart optimization
+
+#### 👥 Workforce Enhancement Metrics
+- **Training Time Reduction**: 60-80% faster onboarding for new employees
+- **Safety Incident Reduction**: 90%+ decrease in workplace accidents and near-misses
+- **Knowledge Retention**: 85%+ improvement in procedural knowledge retention
+- **Employee Satisfaction**: Measurable increase in job satisfaction and engagement
+
+#### 💰 Financial Impact Metrics
+- **Cost Savings**: $2-5M annual savings for medium-sized manufacturing facilities
+- **ROI Achievement**: 300-500% return on investment within 18-24 months
+- **Revenue Growth**: 10-20% increase through improved productivity and quality
+- **Competitive Advantage**: Measurable market position improvement
+
+### 📈 Technical Performance Benchmarks
+
+#### ⚡ System Performance Standards
+- **Real-time Processing**: <100ms response time for critical alerts
+- **Document Processing**: 1000+ documents per hour processing capacity
+- **Accuracy Targets**: 95%+ accuracy in knowledge extraction and decision-making
+- **System Availability**: 99.9% uptime with redundant failover systems
+
+#### 🔒 Security & Compliance Metrics
+- **Data Privacy**: 100% on-premises processing with zero data leakage
+- **Compliance Adherence**: Full compliance with industry standards (ISO, OSHA, etc.)
+- **Security Audits**: Regular penetration testing and vulnerability assessments
+- **Access Control**: Role-based permissions with complete audit trails
+
+---
+
+## 🌟 Competitive Advantages & Innovation
+
+### 🚀 Unique Value Propositions
+
+#### 🧠 Holistic Intelligence Integration
+Unlike traditional factory management systems that focus on single aspects, EXPLAINIUM provides **comprehensive intelligence** by integrating tacit knowledge, real-time sensing, and agent feedback into a unified decision-making platform.
+
+#### 🔄 Continuous Learning Architecture
+The system's **self-improving design** ensures that performance gets better over time through continuous learning from operations, making it increasingly valuable as it accumulates experience.
+
+#### 🛡️ Privacy-First Industrial AI
+Complete **on-premises deployment** addresses critical industrial security concerns while providing enterprise-grade AI capabilities without compromising sensitive operational data.
+
+#### ♾️ Infinite Scalability
+The **agent-based architecture** allows unlimited expansion of capabilities, adapting to any factory size or complexity without architectural limitations.
 
 ---
 
