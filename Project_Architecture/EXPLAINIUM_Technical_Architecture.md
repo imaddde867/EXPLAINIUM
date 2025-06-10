@@ -19,7 +19,7 @@
 ![EXPLAINIUM Architecture](JPG_Architecture.jpg)
 
 *Complete system architecture showing EXPLAINIUM as the Central Intelligence Hub managing infinite AI agents*
-    
+```mermaid
     subgraph "🔵 COGNITIVE WORKFORCE"
         ATP[🎯 Adaptive Task<br/>Planner]
         PMG[🔧 Predictive Maintenance<br/>Guardian]
