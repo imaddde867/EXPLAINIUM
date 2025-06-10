@@ -32,44 +32,32 @@
 
 ### 🎯 Enhanced Three-Layer Architecture
 
-```mermaid
-graph TB
-    subgraph "🟡 INPUT LAYERS"
-        EKB[📚 Enterprise Knowledge Base<br/>Documents • Manuals • Videos<br/>Reports • Procedures • Standards]
-        MMS[🔬 Multimodal Sensing<br/>IoT Sensors • Cameras • Telemetry<br/>Real-time Environmental Data]
-        AIL[🤖 Agent Intelligence Layer<br/>Task Outputs • Performance Logs<br/>Learning Feedback • Analytics]
-    end
-    
-    subgraph "🟣 CENTRAL INTELLIGENCE HUB"
-        CIH[🧠 Central Intelligence Hub<br/>Unified Knowledge Graph<br/>Decision Engine]
-    end
-    
-    subgraph "🔵 COGNITIVE WORKFORCE"
-        AGENTS[🤖 Infinite AI Agents<br/>Specialized & Adaptive]
-    end
-    
-    subgraph "⚪ DELIVERY CHANNELS"
-        INTERFACES[📱 Multi-Modal Interfaces<br/>Management • Mobile • AR/VR • Robotics]
-    end
-    
-    EKB --> CIH
-    MMS --> CIH
-    AIL --> CIH
-    
-    CIH --> AGENTS
-    AGENTS --> INTERFACES
-    AGENTS --> AIL
-    
-    classDef inputStyle fill:#ffd200,stroke:#333,stroke-width:3px,color:#000
-    classDef coreStyle fill:#8e44ad,stroke:#333,stroke-width:3px,color:#fff
-    classDef agentStyle fill:#e8f4fd,stroke:#2980b9,stroke-width:2px,color:#000
-    classDef deliveryStyle fill:#f8f9fa,stroke:#6c757d,stroke-width:2px,color:#000
-    
-    class EKB,MMS,AIL inputStyle
-    class CIH coreStyle
-    class AGENTS agentStyle
-    class INTERFACES deliveryStyle
-```
+![EXPLAINIUM Architecture](Project_Architecture/JPG_Architecture.jpg)
+
+*Complete system architecture showing EXPLAINIUM as the Central Intelligence Hub managing infinite AI agents*
+
+#### 🟡 Input Layers
+- **Enterprise Knowledge Base**: Documents, Manuals, Videos, Reports, Procedures, Standards
+- **Multimodal Sensing**: IoT Sensors, Cameras, Telemetry, Real-time Environmental Data
+- **Agent Intelligence Layer**: Task Outputs, Performance Logs, Learning Feedback, Analytics
+
+#### 🟣 Central Intelligence Hub (EXPLAINIUM)
+- **Unified Knowledge Graph**: Centralized decision engine and intelligence coordination
+- **Processing & Knowledge Extraction**: Document and content processing
+- **Smart Sensor Fusion**: Real-time data integration and analysis
+- **Real-time Awareness System**: Continuous monitoring and state management
+
+#### 🔵 Cognitive Workforce (Infinite Agent Network)
+- **Infinite AI Agents**: Specialized and adaptive agent network
+- **Dynamic Agent Spawning**: Unlimited scalability and specialization
+- **Multi-Agent Coordination**: Collaborative task execution
+- **Continuous Learning**: Adaptive improvement and optimization
+
+#### ⚪ Delivery Channels
+- **Multi-Modal Interfaces**: Management, Mobile, AR/VR, Robotics integration
+- **Real-time Dashboards**: Executive control and monitoring
+- **Workforce Applications**: Field worker support and guidance
+- **Automated Systems**: Robotics and equipment coordination
 
 ---
 
@@ -103,32 +91,29 @@ graph TB
 
 **Project Scope**: EXPLAINIUM focuses exclusively on building the **Central Intelligence Hub** - the core brain that manages all AI agents and data processing for factory optimization.
 
-```mermaid
-graph LR
-    subgraph "🏗️ Phase 1: Foundation"
-        P1[Document Processing<br/>API Framework<br/>Database Schema<br/>Status: IN PROGRESS]
-    end
+![EXPLAINIUM Implementation Phases](Project_Architecture/JPG_Architecture.jpg)
 
-    subgraph "🧠 Phase 2: Intelligence"
-        P2[LLM Integration<br/>Vector Embeddings<br/>Knowledge Graphs<br/>Status: PLANNED]
-    end
+*Development phases showing progression from foundation to full agent network deployment*
 
-    subgraph "🤖 Phase 3: Agents"
-        P3[Agent Framework<br/>Specialized Agents<br/>Multi-Agent System<br/>Status: PLANNED]
-    end
+#### 🏗️ Phase 1: Foundation (IN PROGRESS)
+- Document Processing and Knowledge Extraction
+- API Framework and Service Architecture
+- Database Schema and Data Models
 
-    subgraph "🌐 Phase 4: Integration"
-        P4[IoT Integration<br/>Real-time Streaming<br/>Production Deployment<br/>Status: PLANNED]
-    end
+#### 🧠 Phase 2: Intelligence (PLANNED)
+- LLM Integration and Language Understanding
+- Vector Embeddings and Semantic Search
+- Knowledge Graphs and Relationship Mapping
 
-    P1 --> P2 --> P3 --> P4
+#### 🤖 Phase 3: Agents (PLANNED)
+- Agent Framework and Orchestration
+- Specialized Agent Development
+- Multi-Agent Coordination System
 
-    classDef inProgress fill:#ffd200,stroke:#333,stroke-width:2px,color:#000
-    classDef planned fill:#3498db,stroke:#333,stroke-width:2px,color:#fff
-
-    class P1 inProgress
-    class P2,P3,P4 planned
-```
+#### 🌐 Phase 4: Integration (PLANNED)
+- IoT Integration and Edge Computing
+- Real-time Streaming and Analytics
+- Production Deployment and Scaling
 
 ---
 
@@ -145,35 +130,22 @@ graph LR
 
 ### 📊 **PH-1 Current Status:**
 
-```mermaid
-graph LR
-    subgraph "🔄 IN PROGRESS"
-        DOC[📄 Document Processing]
-        API[🔗 REST API]
-        DB[🗃️ Database Schema]
-        NLP[🧠 Basic NLP]
-        WEB[🌐 Web Interface]
-    end
+![EXPLAINIUM Phase 1 Status](Project_Architecture/JPG_Architecture.jpg)
 
-    subgraph "📋 PLANNED"
-        LLM[🤖 LLM Integration]
-        VECTOR[🎯 Vector Search]
-        GRAPH[🕸️ Knowledge Graphs]
-        ADVANCED[⚡ Advanced Features]
-    end
+*Current development status showing Phase 1 components and planned Phase 2 features*
 
-    DOC --> LLM
-    API --> VECTOR
-    DB --> GRAPH
-    NLP --> ADVANCED
-    WEB --> ADVANCED
+#### 🔄 Phase 1 - IN PROGRESS
+- **Document Processing**: Text extraction and content analysis
+- **REST API**: Service architecture and endpoint development
+- **Database Schema**: Data models and storage optimization
+- **Basic NLP**: Entity recognition and text processing
+- **Web Interface**: Management dashboard and testing interface
 
-    classDef inProgressStyle fill:#ffd200,stroke:#333,stroke-width:2px,color:#000
-    classDef plannedStyle fill:#3498db,stroke:#333,stroke-width:2px,color:#fff
-
-    class DOC,API,DB,NLP,WEB inProgressStyle
-    class LLM,VECTOR,GRAPH,ADVANCED plannedStyle
-```
+#### 📋 Phase 2 - PLANNED
+- **LLM Integration**: Local language model deployment
+- **Vector Search**: Semantic search and embeddings
+- **Knowledge Graphs**: Relationship mapping and graph construction
+- **Advanced Features**: Multi-modal processing and agent coordination
 
 ---
 

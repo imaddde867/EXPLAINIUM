@@ -19,58 +19,16 @@
 ![EXPLAINIUM Architecture](JPG_Architecture.jpg)
 
 *Complete system architecture showing EXPLAINIUM as the Central Intelligence Hub managing infinite AI agents*
-    
-    subgraph "🔵 COGNITIVE WORKFORCE"
-        ATP[🎯 Adaptive Task<br/>Planner]
-        PMG[🔧 Predictive Maintenance<br/>Guardian]
-        TKA[👨‍🏫 Training & Knowledge<br/>Assistant]
-        WOE[📊 Workflow Optimization<br/>Engine]
-        SGS[🛡️ Safety Guardian<br/>System]
-        PAH[📈 Performance Analytics<br/>Hub]
-    end
-    
-    subgraph "⚪ DELIVERY CHANNELS"
-        MCC[💻 Management<br/>Command Center]
-        ARI[🥽 AR/VR<br/>Interfaces]
-        RIN[🤖 Robotics<br/>Integration]
-        MWA[📱 Mobile Workforce<br/>Applications]
-    end
-    
-    EKB --> PKE
-    MMS --> SSF
-    AIL --> RTA
-    
-    CIH --> ATP
-    CIH --> PMG
-    CIH --> TKA
-    CIH --> WOE
-    CIH --> SGS
-    CIH --> PAH
-    
-    ATP --> MCC
-    PMG --> ARI
-    TKA --> RIN
-    WOE --> MWA
-    SGS --> MCC
-    PAH --> MCC
-    
-    ATP --> AIL
-    PMG --> AIL
-    TKA --> AIL
-    WOE --> AIL
-    SGS --> AIL
-    PAH --> AIL
-    
-    classDef inputLayer fill:#ffd200,stroke:#333,stroke-width:3px,color:#000
-    classDef coreLayer fill:#8e44ad,stroke:#333,stroke-width:3px,color:#fff
-    classDef agentLayer fill:#e8f4fd,stroke:#2980b9,stroke-width:2px,color:#000
-    classDef deliveryLayer fill:#f8f9fa,stroke:#6c757d,stroke-width:2px,color:#000
-    
-    class EKB,MMS,AIL inputLayer
-    class PKE,SSF,RTA,CIH coreLayer
-    class ATP,PMG,TKA,WOE,SGS,PAH agentLayer
-    class MCC,ARI,RIN,MWA deliveryLayer
-```
+
+### 🔄 Data Flow Architecture
+
+![EXPLAINIUM Data Flow](JPG_Architecture.jpg)
+
+*Comprehensive data processing pipeline from input sources through EXPLAINIUM to agent network outputs*
+
+### ♾️ Infinite Agent Scalability
+
+EXPLAINIUM is designed to support unlimited agent instances through horizontal scaling, resource pooling, and dynamic orchestration. The Central Intelligence Hub coordinates agent spawning, task distribution, and inter-agent communication at any scale.
 
 ---
 
@@ -78,97 +36,45 @@
 
 ### 🏗️ Technology Architecture
 
-```mermaid
-graph TB
-    subgraph "🌐 Edge Computing Layer"
-        MQTT[MQTT Brokers<br/>Real-time Messaging]
-        EDGE[Edge AI Processors<br/>Local Inference]
-        IOT[IoT Gateways<br/>Protocol Translation]
-    end
-    
-    subgraph "📥 Data Ingestion Layer"
-        KAFKA[Apache Kafka<br/>Stream Processing]
-        MINIO[MinIO Object Storage<br/>Document Storage]
-        REDIS[Redis Cache<br/>Session Management]
-    end
-    
-    subgraph "⚙️ Processing Layer"
-        API[FastAPI<br/>REST API Server]
-        CELERY[Celery + Redis<br/>Task Queue]
-        NLP[spaCy + Transformers<br/>NLP Processing]
-        LLM[Local LLMs<br/>Llama 3 / Mistral]
-        CV[PyTorch + OpenCV<br/>Computer Vision]
-        WHISPER[Whisper<br/>Audio Processing]
-    end
-    
-    subgraph "🗃️ Data Layer"
-        POSTGRES[PostgreSQL<br/>Relational Data]
-        CHROMA[ChromaDB<br/>Vector Embeddings]
-        TIMESCALE[TimescaleDB<br/>Time-series Data]
-        NEO4J[Neo4j<br/>Knowledge Graphs]
-    end
-    
-    subgraph "💻 Application Layer"
-        REACT[React Frontend<br/>Management UI]
-        STREAMLIT[Streamlit<br/>Analytics Dashboard]
-        MOBILE[Mobile Apps<br/>iOS / Android]
-        API_GATEWAY[API Gateway<br/>Service Mesh]
-    end
-    
-    subgraph "🏗️ Infrastructure Layer"
-        K8S[Kubernetes<br/>Container Orchestration]
-        GRAFANA[Grafana<br/>Monitoring]
-        PROMETHEUS[Prometheus<br/>Metrics Collection]
-        ELK[ELK Stack<br/>Logging]
-    end
-    
-    MQTT --> KAFKA
-    EDGE --> KAFKA
-    IOT --> KAFKA
-    
-    KAFKA --> API
-    MINIO --> API
-    REDIS --> API
-    
-    API --> CELERY
-    API --> NLP
-    API --> LLM
-    API --> CV
-    API --> WHISPER
-    
-    CELERY --> POSTGRES
-    NLP --> CHROMA
-    LLM --> NEO4J
-    CV --> TIMESCALE
-    
-    POSTGRES --> REACT
-    CHROMA --> STREAMLIT
-    NEO4J --> MOBILE
-    TIMESCALE --> API_GATEWAY
-    
-    REACT --> K8S
-    STREAMLIT --> K8S
-    MOBILE --> K8S
-    API_GATEWAY --> K8S
-    
-    K8S --> GRAFANA
-    K8S --> PROMETHEUS
-    K8S --> ELK
-    
-    classDef edgeLayer fill:#27ae60,stroke:#333,stroke-width:2px,color:#fff
-    classDef ingestionLayer fill:#3498db,stroke:#333,stroke-width:2px,color:#fff
-    classDef processingLayer fill:#e74c3c,stroke:#333,stroke-width:2px,color:#fff
-    classDef dataLayer fill:#f39c12,stroke:#333,stroke-width:2px,color:#fff
-    classDef appLayer fill:#9b59b6,stroke:#333,stroke-width:2px,color:#fff
-    classDef infraLayer fill:#34495e,stroke:#333,stroke-width:2px,color:#fff
-    
-    class MQTT,EDGE,IOT edgeLayer
-    class KAFKA,MINIO,REDIS ingestionLayer
-    class API,CELERY,NLP,LLM,CV,WHISPER processingLayer
-    class POSTGRES,CHROMA,TIMESCALE,NEO4J dataLayer
-    class REACT,STREAMLIT,MOBILE,API_GATEWAY appLayer
-    class K8S,GRAFANA,PROMETHEUS,ELK infraLayer
-```
+![EXPLAINIUM Technology Stack](JPG_Architecture.jpg)
+
+*Complete technology stack showing all layers from edge computing to infrastructure*
+
+#### 🌐 Edge Computing Layer
+- **MQTT Brokers**: Real-time messaging and communication
+- **Edge AI Processors**: Local inference and processing
+- **IoT Gateways**: Protocol translation and data aggregation
+
+#### 📥 Data Ingestion Layer
+- **Apache Kafka**: Stream processing and event streaming
+- **MinIO Object Storage**: Document and media storage
+- **Redis Cache**: Session management and caching
+
+#### ⚙️ Processing Layer
+- **FastAPI**: REST API server and service orchestration
+- **Celery + Redis**: Distributed task queue and processing
+- **spaCy + Transformers**: Natural language processing
+- **Local LLMs**: Llama 3 / Mistral for language understanding
+- **PyTorch + OpenCV**: Computer vision and image processing
+- **Whisper**: Audio processing and speech recognition
+
+#### 🗃️ Data Layer
+- **PostgreSQL**: Relational data and structured storage
+- **ChromaDB**: Vector embeddings and semantic search
+- **TimescaleDB**: Time-series data and metrics
+- **Neo4j**: Knowledge graphs and relationship mapping
+
+#### 💻 Application Layer
+- **React Frontend**: Management user interface
+- **Streamlit**: Analytics dashboard and visualization
+- **Mobile Apps**: iOS / Android workforce applications
+- **API Gateway**: Service mesh and routing
+
+#### 🏗️ Infrastructure Layer
+- **Kubernetes**: Container orchestration and scaling
+- **Grafana**: System monitoring and visualization
+- **Prometheus**: Metrics collection and alerting
+- **ELK Stack**: Centralized logging and analysis
 
 ---
 
@@ -178,50 +84,156 @@ graph TB
 
 **Project Scope**: EXPLAINIUM focuses exclusively on building the **Central Intelligence Hub** - the core brain that manages all AI agents and data processing for factory optimization.
 
-```mermaid
-graph TB
-    subgraph "🏗️ Phase 1: Foundation Layer"
-        P1A[Document Processing<br/>Status: IN PROGRESS]
-        P1B[Basic API Framework<br/>Status: COMPLETED]
-        P1C[Database Schema<br/>Status: COMPLETED]
-    end
+![EXPLAINIUM Implementation Phases](JPG_Architecture.jpg)
 
-    subgraph "🧠 Phase 2: Intelligence Layer"
-        P2A[LLM Integration<br/>Status: PLANNED]
-        P2B[Vector Embeddings<br/>Status: PLANNED]
-        P2C[Knowledge Graphs<br/>Status: PLANNED]
-    end
+*Development phases showing progression from foundation to full agent network deployment*
 
-    subgraph "🤖 Phase 3: Agent Framework"
-        P3A[Agent Framework<br/>Status: PLANNED]
-        P3B[Specialized Agents<br/>Status: PLANNED]
-        P3C[Multi-Agent Coordination<br/>Status: PLANNED]
-    end
+#### 🏗️ Phase 1: Foundation Layer
+**Status**: IN PROGRESS
+- Document Processing and Knowledge Extraction
+- Basic API Framework and Service Architecture
+- Database Schema and Data Models
+- Core Infrastructure Setup
 
-    subgraph "🌐 Phase 4: Integration"
-        P4A[IoT Integration<br/>Status: PLANNED]
-        P4B[Real-time Streaming<br/>Status: PLANNED]
-        P4C[Production Deployment<br/>Status: PLANNED]
-    end
+#### 🧠 Phase 2: Intelligence Layer
+**Status**: PLANNED
+- Local LLM Integration (Llama 3/Mistral)
+- Vector Embeddings and Semantic Search (ChromaDB)
+- Knowledge Graph Construction (Neo4j)
+- Multi-modal Content Understanding
 
-    P1A --> P2A
-    P1B --> P2B
-    P1C --> P2C
-    P2A --> P3A
-    P2B --> P3B
-    P2C --> P3C
-    P3A --> P4A
-    P3B --> P4B
-    P3C --> P4C
+#### 🤖 Phase 3: Agent Framework
+**Status**: PLANNED
+- Infinite Agent Orchestration System
+- Specialized Agent Development and Deployment
+- Multi-Agent Coordination and Communication
+- Dynamic Agent Spawning and Scaling
 
-    classDef inProgress fill:#ffd200,stroke:#333,stroke-width:2px,color:#000
-    classDef completed fill:#27ae60,stroke:#333,stroke-width:2px,color:#fff
-    classDef planned fill:#3498db,stroke:#333,stroke-width:2px,color:#fff
+#### 🌐 Phase 4: Integration & Deployment
+**Status**: PLANNED
+- IoT Sensor Integration and Edge Computing
+- Real-time Data Streaming (Apache Kafka)
+- Production-ready Deployment (Kubernetes)
+- Security Hardening and Compliance
 
-    class P1A inProgress
-    class P1B,P1C completed
-    class P2A,P2B,P2C,P3A,P3B,P3C,P4A,P4B,P4C planned
-```
+---
+
+## 🔄 Data Processing Architecture
+
+### 📊 Complete Data Processing Pipeline
+
+![EXPLAINIUM Data Processing](JPG_Architecture.jpg)
+
+*End-to-end data flow from input sources through processing engines to knowledge layer and agent network*
+
+#### 📥 Input Sources
+- **Documents**: PDF, DOCX, Videos, Manuals, Reports, Procedures
+- **IoT Sensors**: Temperature, Pressure, Vibration, Environmental Data
+- **Agent Outputs**: Task Results, Performance Logs, Learning Feedback
+
+#### ⚙️ Processing Engines
+- **OCR Engine**: Tesseract + PaddleOCR for text extraction
+- **NLP Pipeline**: spaCy + Transformers for language processing
+- **Sensor Fusion**: Real-time analytics and pattern recognition
+- **Learning Engine**: Continuous improvement and adaptation
+
+#### 🧠 Knowledge Layer
+- **Vector Store**: ChromaDB embeddings for semantic search
+- **Knowledge Graph**: Neo4j relationships and entity mapping
+- **Time Series**: TimescaleDB metrics and temporal data
+- **Structured Data**: PostgreSQL tables and relational storage
+
+#### 🤖 Intelligence Hub
+- **Reasoning Engine**: LLM + Logic Rules for decision making
+- **Decision Engine**: Real-time inference and action planning
+- **Agent Orchestrator**: Multi-agent coordination and task distribution
+
+### 📋 Data Models & Schemas
+
+![EXPLAINIUM Data Models](JPG_Architecture.jpg)
+
+*Core data structures and relationships supporting the Central Intelligence Hub*
+
+#### 🗃️ Core Data Structures
+
+**Document Entity Model**
+- Document metadata and content storage
+- Entity extraction and relationship mapping
+- Category classification and tagging
+- Processing status and version control
+
+**Sensor Data Model**
+- Real-time sensor readings and telemetry
+- Device configuration and status tracking
+- Time-series data aggregation and analysis
+- Alert thresholds and notification rules
+
+**Agent Task Model**
+- Task definition and parameter specification
+- Execution status and progress tracking
+- Output results and performance metrics
+- Inter-agent communication and coordination
+
+---
+
+## ⚡ Real-time Processing Architecture
+
+### 🌊 Stream Processing Framework
+
+![EXPLAINIUM Stream Processing](JPG_Architecture.jpg)
+
+*Real-time data streaming and processing architecture for immediate response capabilities*
+
+#### 📡 Data Sources
+- **IoT Sensors**: Continuous telemetry and environmental monitoring
+- **Cameras**: Visual inspection and safety monitoring
+- **Microphones**: Audio analysis and communication
+- **System Logs**: Application and infrastructure monitoring
+
+#### 🌊 Stream Processing
+- **Apache Kafka**: Event streaming and message queuing
+- **Apache Flink**: Complex event processing and analytics
+- **Spark Streaming**: Large-scale data processing and ML inference
+
+#### 🧠 Real-time Analytics
+- **Complex Event Processing**: Pattern detection and correlation
+- **ML Inference**: Real-time model predictions and scoring
+- **Business Rules Engine**: Policy enforcement and decision automation
+
+#### ⚡ Immediate Actions
+- **Instant Alerts**: Critical event notifications and escalation
+- **Automated Actions**: Immediate response and system adjustments
+- **Live Dashboards**: Real-time visualization and monitoring
+
+---
+
+## 🔒 Security & Privacy Architecture
+
+### 🛡️ Comprehensive Security Framework
+
+![EXPLAINIUM Security Architecture](JPG_Architecture.jpg)
+
+*Multi-layered security architecture ensuring data protection and system integrity*
+
+#### 🔐 Authentication Layer
+- **Multi-Factor Authentication**: Enhanced user verification
+- **Role-Based Access Control**: Granular permission management
+- **Single Sign-On**: Unified authentication across services
+
+#### 🔒 Encryption Layer
+- **TLS 1.3 Transport**: Secure communication protocols
+- **AES-256 Data Encryption**: Data-at-rest protection
+- **PKI Certificate Management**: Public key infrastructure
+
+#### 🛡️ Network Security
+- **Firewall Rules**: Network traffic filtering and control
+- **VPN Access**: Secure remote connectivity
+- **Intrusion Detection**: Threat monitoring and response
+
+#### 📊 Audit & Compliance
+- **Audit Logging**: Comprehensive activity tracking
+- **Security Monitoring**: Continuous threat assessment
+- **Compliance Reporting**: Regulatory adherence verification
 
 ---
 
