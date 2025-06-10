@@ -37,7 +37,7 @@
 
 ---
 
-## 🏗️ Optimized Architecture
+## 🏗️ Simple Interactive Architecture
 
 ### 🎯  Three-Layer Architecture
 
@@ -80,7 +80,7 @@ graph TB
     class INTERFACES deliveryStyle
 ```
 
-## 🏗️ EXPLAINIUM System Architecture
+## 🏗️  System Architecture
 
 ### 🎯 High-Level Architecture Overview
 
