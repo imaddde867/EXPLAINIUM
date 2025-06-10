@@ -1,7 +1,5 @@
 # EXPLAINIUM - Central Intelligence Hub Technical Architecture
 
-*Building a "good life in a smart society" through excellence in applied AI science*
-
 ![EXPLAINIUM](https://img.shields.io/badge/EXPLAINIUM-Central%20Intelligence%20Hub-ffd200?style=for-the-badge&logo=brain&logoColor=black)
 
 ---
