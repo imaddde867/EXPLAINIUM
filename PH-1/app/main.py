@@ -1,3 +1,23 @@
+"""
+EXPLAINIUM PH-1 - Smart Knowledge Extraction System
+
+Main FastAPI application providing intelligent document processing and knowledge extraction
+capabilities for industrial applications. This module serves as the foundation layer of
+the EXPLAINIUM AI factory management system.
+
+Features:
+- Multi-format document processing (PDF, DOCX, TXT, images, videos)
+- Intelligent text extraction with OCR capabilities
+- Named entity recognition and relationship extraction
+- Content classification and categorization
+- RESTful API with comprehensive documentation
+- Real-time processing status and progress tracking
+
+Author: EXPLAINIUM Development Team
+Version: 1.0.0
+License: Proprietary
+"""
+
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,16 +43,50 @@ from app.schemas.knowledge import (
 )
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
-# Initialize FastAPI application
+# Initialize FastAPI application with comprehensive metadata
 app = FastAPI(
-    title="EXPLAINIUM - Smart Knowledge Extraction System",
-    description="AI-powered document processing and intelligent knowledge extraction for industrial applications",
+    title="EXPLAINIUM PH-1 - Smart Knowledge Extraction System",
+    description="""
+    🧠 **EXPLAINIUM Phase 1** - Foundation Layer Implementation
+
+    Advanced AI-powered document processing and intelligent knowledge extraction system
+    designed for industrial applications. Transform unstructured company knowledge into
+    structured, searchable, and actionable intelligence.
+
+    ## 🚀 Key Features
+
+    * **Multi-format Processing**: PDF, DOCX, TXT, images, videos
+    * **Intelligent OCR**: Advanced text extraction with layout understanding
+    * **Entity Recognition**: Automatic identification of equipment, procedures, safety info
+    * **Content Classification**: Smart categorization of document types
+    * **RESTful API**: Clean, documented endpoints for seamless integration
+    * **Real-time Processing**: Asynchronous task processing with status tracking
+
+    ## 📊 Supported Formats
+
+    * **Documents**: PDF, DOCX, TXT, RTF
+    * **Images**: JPG, PNG, TIFF, BMP (with OCR)
+    * **Videos**: MP4, AVI, MOV (frame extraction)
+
+    Built with ❤️ following Turku UAS visual identity standards.
+    """,
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    contact={
+        "name": "EXPLAINIUM Development Team",
+        "email": "support@explainium.ai",
+    },
+    license_info={
+        "name": "Proprietary License",
+        "url": "https://explainium.ai/license",
+    },
 )
 
 # Add CORS middleware for web interface compatibility

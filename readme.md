@@ -27,93 +27,105 @@
 
 ---
 
-## 🏗️ System Architecture Overview
+## 🏗️ EXPLAINIUM System Architecture
+
+### 🎯 High-Level Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "INPUT LAYERS"
+        EKB[Enterprise Knowledge Base<br/>📚 Documents, Manuals, Videos<br/>📊 Reports, Procedures]
+        MMS[Multimodal Sensing<br/>🔬 IoT Sensors, Cameras<br/>⚡ Real-time Telemetry]
+        AIL[Agent Intelligence Layer<br/>🤖 Task Outputs, Logs<br/>📈 Performance Metrics]
+    end
+
+    subgraph "CENTRAL INTELLIGENCE HUB"
+        PKE[Processing & Knowledge<br/>Extraction Engine]
+        SSF[Smart Sensor<br/>Fusion Engine]
+        RTA[Real-time<br/>Awareness System]
+
+        PKE --> CIH[Central Intelligence Hub<br/>🧠 Unified Knowledge Graph]
+        SSF --> CIH
+        RTA --> CIH
+    end
+
+    subgraph "COGNITIVE WORKFORCE"
+        ATP[Adaptive Task<br/>Planner]
+        PMG[Predictive Maintenance<br/>Guardian]
+        TKA[Training & Knowledge<br/>Assistant]
+        WOE[Workflow Optimization<br/>Engine]
+        SGS[Safety Guardian<br/>System]
+        PAH[Performance Analytics<br/>Hub]
+    end
+
+    subgraph "DELIVERY CHANNELS"
+        MCC[Management<br/>Command Center]
+        ARI[AR/VR<br/>Interfaces]
+        RIN[Robotics<br/>Integration]
+        MWA[Mobile Workforce<br/>Applications]
+    end
+
+    EKB --> PKE
+    MMS --> SSF
+    AIL --> RTA
+
+    CIH --> ATP
+    CIH --> PMG
+    CIH --> TKA
+    CIH --> WOE
+    CIH --> SGS
+    CIH --> PAH
+
+    ATP --> MCC
+    PMG --> ARI
+    TKA --> RIN
+    WOE --> MWA
+    SGS --> MCC
+    PAH --> MCC
+
+    ATP --> AIL
+    PMG --> AIL
+    TKA --> AIL
+    WOE --> AIL
+    SGS --> AIL
+    PAH --> AIL
+
+    classDef inputLayer fill:#ffd200,stroke:#333,stroke-width:2px,color:#000
+    classDef coreLayer fill:#8e44ad,stroke:#333,stroke-width:2px,color:#fff
+    classDef agentLayer fill:#e8f4fd,stroke:#333,stroke-width:2px,color:#000
+    classDef deliveryLayer fill:#f0f0f0,stroke:#333,stroke-width:2px,color:#000
+
+    class EKB,MMS,AIL inputLayer
+    class PKE,SSF,RTA,CIH coreLayer
+    class ATP,PMG,TKA,WOE,SGS,PAH agentLayer
+    class MCC,ARI,RIN,MWA deliveryLayer
+```
 
 ### 📊 Three-Layer Input Architecture
 
-#### 1️⃣ Company Tacit Knowledge Layer
+#### 1️⃣ Enterprise Knowledge Base
 **Purpose**: Transform institutional knowledge into actionable intelligence
 
-- **Enterprise Documentation**: Manuals, procedures, policies
+- **Enterprise Documentation**: Manuals, procedures, policies, standards
 - **Training Materials**: Videos, presentations, e-learning content
-- **Historical Data**: Reports, incident logs, best practices
-- **Multimedia Content**: Images, diagrams, technical drawings
-
-**Processing Pipeline**:
-```
-Documents → OCR/NLP → Knowledge Extraction → Semantic Understanding → Knowledge Graph
-```
+- **Historical Data**: Reports, incident logs, best practices, lessons learned
+- **Multimedia Content**: Images, diagrams, technical drawings, schematics
 
 #### 2️⃣ Multimodal Sensing Layer
 **Purpose**: Real-time environmental and operational awareness
 
-- **IoT Sensor Network**: Temperature, pressure, vibration, humidity
+- **IoT Sensor Network**: Temperature, pressure, vibration, humidity, flow rates
 - **Computer Vision**: Quality inspection, safety monitoring, workflow tracking
 - **Machine Telemetry**: Equipment status, performance metrics, diagnostics
 - **Environmental Monitoring**: Air quality, noise levels, energy consumption
 
-**Processing Pipeline**:
-```
-Raw Sensors → Edge Processing → Data Fusion → Pattern Recognition → Real-time Alerts
-```
-
-#### 3️⃣ Agent Output Layer
+#### 3️⃣ Agent Intelligence Layer
 **Purpose**: Continuous learning and system optimization
 
-- **Task Execution Logs**: Agent performance, decision traces
-- **Learning Feedback**: Model improvements, accuracy metrics
-- **Performance Analytics**: KPIs, efficiency measurements
+- **Task Execution Logs**: Agent performance, decision traces, outcomes
+- **Learning Feedback**: Model improvements, accuracy metrics, adaptations
+- **Performance Analytics**: KPIs, efficiency measurements, optimization results
 - **Collaborative Intelligence**: Inter-agent communication, knowledge sharing
-
-**Processing Pipeline**:
-```
-Agent Data → Performance Analysis → Learning Updates → System Optimization → Feedback Loop
-```
-
----
-
-## 🧠 EXPLAINIUM Core - Central Intelligence Hub
-
-### 🔄 Processing & Knowledge Extraction Engine
-
-**Mission**: Transform raw data into actionable factory intelligence
-
-#### Document Intelligence Pipeline
-- **Multi-format Processing**: PDF, DOCX, XLSX, PPT, images, videos
-- **Advanced OCR**: Tesseract + PaddleOCR for multilingual support
-- **Layout Understanding**: Detectron2 for document structure analysis
-- **Table Recognition**: Table-Transformer for complex data extraction
-- **Technical Diagram Analysis**: Custom models for flowcharts and schematics
-
-#### Smart Sensor Fusion Engine
-- **Real-time Data Processing**: Stream processing with Apache Kafka
-- **Pattern Recognition**: ML models for anomaly detection
-- **Predictive Analytics**: Time-series forecasting for maintenance
-- **Multi-sensor Correlation**: Fusion algorithms for comprehensive insights
-
-#### Real-time Awareness System
-- **Context Understanding**: Situation assessment and decision support
-- **Event Correlation**: Cross-system pattern recognition
-- **Alert Generation**: Intelligent notification system
-- **Performance Monitoring**: Real-time KPI tracking and analysis
-
-### 🗄️ Knowledge Base Architecture
-
-```mermaid
-graph LR
-    A[Process Models] --> D[Unified Knowledge Graph]
-    B[Best Practices] --> D
-    C[Historical Patterns] --> D
-    D --> E[Agent Intelligence]
-    D --> F[Decision Support]
-    D --> G[Predictive Models]
-```
-
-**Core Components**:
-- **Process Models**: Digital representations of factory workflows
-- **Best Practices Database**: Curated knowledge from expert operations
-- **Historical Pattern Analysis**: Learning from past performance data
-- **Semantic Knowledge Graph**: Interconnected factory intelligence network
 
 ---
 
