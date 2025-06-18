@@ -6,7 +6,7 @@
 
 ## 🎯 Executive Summary
 
-**EXPLAINIUM** is the Central Intelligence Hub - the core brain of an AI-powered industrial intelligence system. EXPLAINIUM integrates three critical input layers (Company Tacit Knowledge, Multimodal Sensing, and Agent Generated Outputs) to orchestrate an infinite network of specialized AI agents for comprehensive factory management and optimization.
+**EXPLAINIUM** is the Central Intelligence Hub - the core brain of an AI-powered industrial intelligence system "Thrive". EXPLAINIUM integrates three critical input layers (Company Tacit Knowledge, Multimodal Sensing, and Agent Generated Outputs) to orchestrate an infinite network of specialized AI agents for comprehensive factory management and optimization.
 
 ### 🏗️ Architecture Philosophy
 
