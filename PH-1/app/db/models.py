@@ -14,7 +14,8 @@ class Document(Base):
     filetype = Column(String(50), nullable=False)
     status = Column(String(50), default='pending')
     content = Column(Text)
-    metadata = Column(JSON)
+    # naming conflict in SQLAlchemy with 'metadata', using 'document_metadata' instead
+    document_metadata = Column("metadata",JSON)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
@@ -95,7 +96,8 @@ class DocumentStructure(Base):
     structure_type = Column(String(50), nullable=False)  # section, list, table, etc.
     content = Column(Text, nullable=False)
     line_number = Column(Integer)
-    metadata = Column(JSON)
+    # naming conflict in SQLAlchemy with 'metadata', using 'document_metadata' instead
+    structure_metadata = Column("metadata",JSON)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     # Relationships
