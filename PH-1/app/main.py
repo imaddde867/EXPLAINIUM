@@ -15,16 +15,18 @@ Features:
 
 Author: EXPLAINIUM Development Team
 Version: 1.0.0
-License: Proprietary
 """
 
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from typing import List, Optional
 import time
 import logging
+import os
 
 # Import application modules
 from app.ingestion.router import detect_file_type, validate_file_strict
@@ -48,6 +50,9 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+# Initialize Jinja2 templates
+templates = Jinja2Templates(directory="app/templates")
 
 # Initialize FastAPI application with comprehensive metadata
 app = FastAPI(
@@ -115,92 +120,9 @@ def health_check():
 
 # Simple web interface for testing
 @app.get("/", response_class=HTMLResponse)
-def root():
-    """Simple web interface for testing the API"""
-    html_content = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>EXPLAINIUM - Smart Knowledge Extraction</title>
-        <style>
-            body { font-family: 'PT Sans', Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
-            .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-            .header { text-align: center; margin-bottom: 30px; }
-            .logo { color: #8e44ad; font-size: 2.5em; font-weight: bold; }
-            .subtitle { color: #333; background: #ffd200; padding: 10px; border-radius: 5px; display: inline-block; font-weight: bold; }
-            .info { background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffd200; }
-            .api-link { color: #8e44ad; text-decoration: none; font-weight: bold; }
-            .api-link:hover { text-decoration: underline; }
-            .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
-            .feature { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #8e44ad; }
-            .status { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <div class="logo">EXPLAINIUM</div>
-                <div class="subtitle">Smart Knowledge Extraction System</div>
-            </div>
-            
-            <div class="status">
-                🟢 System Status: Active & Ready
-            </div>
-            
-            <div class="info">
-                <h3>🎯 About EXPLAINIUM</h3>
-                <p>EXPLAINIUM is an AI-powered knowledge extraction system designed for industrial applications. 
-                It processes documents and extracts meaningful knowledge including entities, relationships, and content classifications.</p>
-            </div>
-            
-            <div class="feature-list">
-                <div class="feature">
-                    <h4>📄 Document Processing</h4>
-                    <p>Supports PDF, DOCX, and TXT files with advanced text extraction capabilities.</p>
-                </div>
-                <div class="feature">
-                    <h4>🧠 Entity Recognition</h4>
-                    <p>Automatically identifies equipment, safety items, processes, and personnel mentions.</p>
-                </div>
-                <div class="feature">
-                    <h4>🔗 Relationship Mapping</h4>
-                    <p>Discovers connections between entities to build knowledge graphs.</p>
-                </div>
-                <div class="feature">
-                    <h4>📊 Content Classification</h4>
-                    <p>Categorizes documents into safety manuals, procedures, training materials, etc.</p>
-                </div>
-            </div>
-            
-            <div class="info">
-                <h3>🚀 API Endpoints</h3>
-                <ul>
-                    <li><code>POST /api/v1/documents/upload</code> - Upload and process documents</li>
-                    <li><code>GET /api/v1/documents/{id}</code> - Get document details</li>
-                    <li><code>GET /api/v1/documents/{id}/entities</code> - Get extracted entities</li>
-                    <li><code>GET /api/v1/documents/{id}/categories</code> - Get content categories</li>
-                    <li><code>POST /api/v1/knowledge/search</code> - Search knowledge base</li>
-                    <li><code>GET /api/v1/knowledge/stats</code> - Get extraction statistics</li>
-                </ul>
-            </div>
-            
-            <div class="info">
-                <h3>📚 Documentation</h3>
-                <p>
-                    <a href="/docs" class="api-link">📖 Interactive API Documentation (Swagger UI)</a><br>
-                    <a href="/redoc" class="api-link">📋 Alternative Documentation (ReDoc)</a>
-                </p>
-            </div>
-            
-            <div style="text-align: center; margin-top: 30px; color: #666; border-top: 1px solid #eee; padding-top: 20px;">
-                <p><strong>TURKU AMK</strong> - Applied Sciences</p>
-                <p style="font-style: italic;">Building a "good life in a smart society" through excellence in applied AI science</p>
-            </div>
-        </div>
-    </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content)
+def root(request: Request):
+    """Main web interface for document upload and processing"""
+    return templates.TemplateResponse("index.html", {"request": request})
 
 # Document processing endpoints
 @app.post("/api/v1/documents/upload", response_model=DocumentOut)
@@ -375,3 +297,198 @@ def search_knowledge(
         limit=limit
     )
     return entities
+
+# Web interface upload endpoint
+@app.post("/upload-ui", response_class=HTMLResponse)
+def upload_ui(
+    request: Request,
+    file: UploadFile = File(...),
+    upload_type: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    """Handle file uploads from the web interface"""
+    result = {"type": upload_type, "filename": file.filename}
+    
+    try:
+        # Validate file
+        validate_file_strict(file)
+        
+        filetype = detect_file_type(file.filename)
+        
+        if upload_type == "document":
+            if filetype not in ['pdf', 'docx', 'txt']:
+                result["error"] = "Unsupported document type. Please use PDF, DOCX, or TXT files."
+                return templates.TemplateResponse("index.html", {"request": request, "result": result})
+            
+            # Extract content based on file type
+            file.file.seek(0)
+            if filetype == 'pdf':
+                content = extract_text_pdf(file)
+            elif filetype == 'docx':
+                content = extract_text_docx(file)
+            elif filetype == 'txt':
+                content = extract_text_txt(file)
+            else:
+                content = None
+            
+            if not content or len(content.strip()) < 10:
+                result["error"] = "No extractable content found in document."
+                return templates.TemplateResponse("index.html", {"request": request, "result": result})
+            
+            # Create document record
+            doc_in = DocumentCreate(
+                filename=file.filename, 
+                filetype=filetype, 
+                content=content,
+                metadata={"content_length": len(content)}
+            )
+            db_doc = create_document(db, doc_in, status='processing')
+            
+            # Perform knowledge extraction
+            try:
+                # Extract entities
+                entities = extract_entities(content)
+                for entity in entities:
+                    entity_create = EntityCreate(
+                        document_id=db_doc.id,
+                        text=entity.text,
+                        label=entity.label,
+                        confidence=entity.confidence,
+                        start_position=entity.start,
+                        end_position=entity.end
+                    )
+                    create_entity(db, entity_create)
+                
+                # Classify content
+                categories = classify_content(content)
+                for category in categories:
+                    category_create = ContentCategoryCreate(
+                        document_id=db_doc.id,
+                        category=category.category,
+                        confidence=category.confidence,
+                        keywords=category.keywords
+                    )
+                    create_category(db, category_create)
+                
+                # Update document status
+                db_doc.status = 'completed'
+                db.commit()
+                
+                result["content"] = content
+                result["entities_extracted"] = len(entities)
+                result["categories_identified"] = len(categories)
+                result["doc_id"] = db_doc.id
+                
+            except Exception as e:
+                logger.error(f"Knowledge extraction failed: {e}")
+                db_doc.status = 'failed'
+                db.commit()
+                result["error"] = f"Knowledge extraction failed: {str(e)}"
+        
+        elif upload_type == "image":
+            # For now, just show that image was received
+            # You can implement OCR here if needed
+            result["ocr_text"] = "Image OCR functionality not yet implemented. Use API endpoint for full OCR capabilities."
+        
+        elif upload_type == "video":
+            # For now, just show that video was received
+            # You can implement frame extraction here if needed
+            result["frames_extracted"] = 0
+            result["preview_frames"] = []
+            result["message"] = "Video processing functionality not yet implemented. Use API endpoint for full video processing capabilities."
+    
+    except Exception as e:
+        logger.error(f"Upload processing failed: {e}")
+        result["error"] = f"Upload processing failed: {str(e)}"
+    
+    return templates.TemplateResponse("index.html", {"request": request, "result": result})
+
+# API information endpoint
+@app.get("/info", response_class=HTMLResponse)
+def api_info():
+    """API information page (original static page)"""
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>EXPLAINIUM - Smart Knowledge Extraction</title>
+        <style>
+            body { font-family: 'PT Sans', Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
+            .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            .header { text-align: center; margin-bottom: 30px; }
+            .logo { color: #8e44ad; font-size: 2.5em; font-weight: bold; }
+            .subtitle { color: #333; background: #ffd200; padding: 10px; border-radius: 5px; display: inline-block; font-weight: bold; }
+            .info { background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffd200; }
+            .api-link { color: #8e44ad; text-decoration: none; font-weight: bold; }
+            .api-link:hover { text-decoration: underline; }
+            .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+            .feature { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #8e44ad; }
+            .status { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="logo">EXPLAINIUM</div>
+                <div class="subtitle">Smart Knowledge Extraction System</div>
+            </div>
+            
+            <div class="status">
+                🟢 System Status: Active & Ready
+            </div>
+            
+            <div class="info">
+                <h3>🎯 About EXPLAINIUM</h3>
+                <p>EXPLAINIUM is an AI-powered knowledge extraction system designed for industrial applications. 
+                It processes documents and extracts meaningful knowledge including entities, relationships, and content classifications.</p>
+            </div>
+            
+            <div class="feature-list">
+                <div class="feature">
+                    <h4>📄 Document Processing</h4>
+                    <p>Supports PDF, DOCX, and TXT files with advanced text extraction capabilities.</p>
+                </div>
+                <div class="feature">
+                    <h4>🧠 Entity Recognition</h4>
+                    <p>Automatically identifies equipment, safety items, processes, and personnel mentions.</p>
+                </div>
+                <div class="feature">
+                    <h4>🔗 Relationship Mapping</h4>
+                    <p>Discovers connections between entities to build knowledge graphs.</p>
+                </div>
+                <div class="feature">
+                    <h4>📊 Content Classification</h4>
+                    <p>Categorizes documents into safety manuals, procedures, training materials, etc.</p>
+                </div>
+            </div>
+            
+            <div class="info">
+                <h3>🚀 API Endpoints</h3>
+                <ul>
+                    <li><code>POST /api/v1/documents/upload</code> - Upload and process documents</li>
+                    <li><code>GET /api/v1/documents/{id}</code> - Get document details</li>
+                    <li><code>GET /api/v1/documents/{id}/entities</code> - Get extracted entities</li>
+                    <li><code>GET /api/v1/documents/{id}/categories</code> - Get content categories</li>
+                    <li><code>POST /api/v1/knowledge/search</code> - Search knowledge base</li>
+                    <li><code>GET /api/v1/knowledge/stats</code> - Get extraction statistics</li>
+                </ul>
+            </div>
+            
+            <div class="info">
+                <h3>📚 Documentation</h3>
+                <p>
+                    <a href="/docs" class="api-link">📖 Interactive API Documentation (Swagger UI)</a><br>
+                    <a href="/redoc" class="api-link">📋 Alternative Documentation (ReDoc)</a><br>
+                    <a href="/" class="api-link">🌐 Web Upload Interface</a>
+                </p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; color: #666; border-top: 1px solid #eee; padding-top: 20px;">
+                <p><strong>TURKU AMK</strong> - Applied Sciences</p>
+                <p style="font-style: italic;">Building a "good life in a smart society" through excellence in applied AI science</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
