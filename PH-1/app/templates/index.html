@@ -1,18 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Enterprise Document Processing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Extraction Engine | Enterprise Document Processing</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .tabs { margin-bottom: 20px; }
-        .tab-btn { padding: 10px 20px; border: 1px solid #ccc; background: #f9f9f9; cursor: pointer; }
-        .tab-btn.active { background: #e0e0e0; }
-        .upload-form { display: none; margin-bottom: 20px; }
-        .upload-form.active { display: block; }
-        .result { margin-top: 30px; padding: 20px; border: 1px solid #ddd; background: #fafafa; }
-        .frame-thumb { max-width: 200px; margin: 5px; border: 1px solid #ccc; }
-        textarea { width: 100%; height: 200px; }
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-color: #374151;
+            --light-gray: #f3f4f6;
+            --medium-gray: #e5e7eb;
+            --dark-gray: #6b7280;
+            --error-color: #dc2626;
+            --success-color: #16a34a;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            background-color: #f9fafb;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--medium-gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--dark-gray);
+            transition: all 0.2s ease;
+        }
+        
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .upload-form {
+            display: none;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .upload-form.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload input[type="file"] {
+            padding: 0.5rem;
+            border: 1px solid var(--medium-gray);
+            border-radius: 0.375rem;
+            background: white;
+        }
+        
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: fit-content;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .result {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-top: 1.5rem;
+        }
+        
+        .result h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 0.75rem;
+            border: 1px solid var(--medium-gray);
+            border-radius: 0.375rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+        
+        .frame-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .frame-thumb {
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .frame-thumb:hover {
+            transform: scale(1.02);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-weight: 500;
+        }
+        
+        .success-message {
+            color: var(--success-color);
+        }
+        
+        code {
+            background: var(--light-gray);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-family: 'Menlo', monospace;
+            font-size: 0.875rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 0.5rem;
+            }
+            
+            .frame-thumb {
+                width: 100%;
+                height: auto;
+            }
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Knowledge Extraction Engine</h1>
+    
+    <div class="tabs">
+        <button id="document-tab" class="tab-btn" onclick="showTab('document')">Document</button>
+        <button id="image-tab" class="tab-btn" onclick="showTab('image')">Image</button>
+        <button id="video-tab" class="tab-btn" onclick="showTab('video')">Video</button>
+    </div>
+    
+    <form id="document-form" class="upload-form" action="/upload-ui" method="post" enctype="multipart/form-data">
+        <div class="file-upload">
+            <input type="hidden" name="upload_type" value="document">
+            <label for="document-file">Upload PDF, DOCX, or TXT file:</label>
+            <input type="file" id="document-file" name="file" accept=".pdf,.docx,.txt" required>
+        </div>
+        <button type="submit">Process Document</button>
+    </form>
+    
+    <form id="image-form" class="upload-form" action="/upload-ui" method="post" enctype="multipart/form-data">
+        <div class="file-upload">
+            <input type="hidden" name="upload_type" value="image">
+            <label for="image-file">Upload PNG, JPG, or JPEG image:</label>
+            <input type="file" id="image-file" name="file" accept=".png,.jpg,.jpeg" required>
+        </div>
+        <button type="submit">Extract Text from Image</button>
+    </form>
+    
+    <form id="video-form" class="upload-form" action="/upload-ui" method="post" enctype="multipart/form-data">
+        <div class="file-upload">
+            <input type="hidden" name="upload_type" value="video">
+            <label for="video-file">Upload MP4 video:</label>
+            <input type="file" id="video-file" name="file" accept=".mp4" required>
+        </div>
+        <button type="submit">Process Video</button>
+    </form>
+    
+    {% if result %}
+    <div class="result">
+        {% if result.error %}
+            <p class="error-message">Error: {{ result.error }}</p>
+        {% elif result.type == 'document' %}
+            <h3>Extracted Content from {{ result.filename }}</h3>
+            <textarea readonly>{{ result.content }}</textarea>
+        {% elif result.type == 'image' %}
+            <h3>Extracted Text from {{ result.filename }}</h3>
+            <textarea readonly>{{ result.ocr_text }}</textarea>
+        {% elif result.type == 'video' %}
+            <h3>Video Analysis: {{ result.filename }}</h3>
+            <p><strong>{{ result.frames_extracted }}</strong> frames extracted</p>
+            
+            {% if result.preview_frames %}
+            <div class="frame-container">
+                {% for frame in result.preview_frames %}
+                <img class="frame-thumb" src="data:image/jpeg;base64,{{ frame }}" alt="Video frame preview">
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <p>To retrieve specific frames, use the API endpoint:</p>
+            <code>/api/v1/videos/{{ result.doc_id }}/frame/&lt;index&gt;</code>
+        {% endif %}
+    </div>
+    {% endif %}
+    
     <script>
         function showTab(tab) {
             document.querySelectorAll('.upload-form').forEach(f => f.classList.remove('active'));
@@ -20,52 +262,21 @@
             document.getElementById(tab+'-form').classList.add('active');
             document.getElementById(tab+'-tab').classList.add('active');
         }
-        window.onload = function() { showTab('document'); };
+        
+        window.onload = function() { 
+            showTab('document'); 
+            
+            // Enhance file inputs
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', function(e) {
+                    const fileName = e.target.files[0]?.name || 'No file selected';
+                    const label = input.previousElementSibling;
+                    if (label && label.tagName === 'LABEL') {
+                        label.textContent = fileName;
+                    }
+                });
+            });
+        };
     </script>
-</head>
-<body>
-    <h1>Enterprise Document Processing</h1>
-    <div class="tabs">
-        <button id="document-tab" class="tab-btn" onclick="showTab('document')">Document</button>
-        <button id="image-tab" class="tab-btn" onclick="showTab('image')">Image</button>
-        <button id="video-tab" class="tab-btn" onclick="showTab('video')">Video</button>
-    </div>
-    <form id="document-form" class="upload-form" action="/upload-ui" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="upload_type" value="document">
-        <input type="file" name="file" accept=".pdf,.docx,.txt" required>
-        <button type="submit">Upload Document</button>
-    </form>
-    <form id="image-form" class="upload-form" action="/upload-ui" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="upload_type" value="image">
-        <input type="file" name="file" accept=".png,.jpg,.jpeg" required>
-        <button type="submit">Upload Image</button>
-    </form>
-    <form id="video-form" class="upload-form" action="/upload-ui" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="upload_type" value="video">
-        <input type="file" name="file" accept=".mp4" required>
-        <button type="submit">Upload Video</button>
-    </form>
-    {% if result %}
-    <div class="result">
-        {% if result.error %}
-            <b style="color:red;">Error:</b> {{ result.error }}
-        {% elif result.type == 'document' %}
-            <h3>Extracted Content ({{ result.filename }})</h3>
-            <textarea readonly>{{ result.content }}</textarea>
-        {% elif result.type == 'image' %}
-            <h3>OCR Result ({{ result.filename }})</h3>
-            <textarea readonly>{{ result.ocr_text }}</textarea>
-        {% elif result.type == 'video' %}
-            <h3>Video Uploaded: {{ result.filename }}</h3>
-            <p>Frames Extracted: {{ result.frames_extracted }}</p>
-            <div>
-                {% for frame in result.preview_frames %}
-                    <img class="frame-thumb" src="data:image/jpeg;base64,{{ frame }}" alt="Frame preview">
-                {% endfor %}
-            </div>
-            <p>To get all frames, use the API: <code>/api/v1/videos/{{ result.doc_id }}/frame/&lt;index&gt;</code></p>
-        {% endif %}
-    </div>
-    {% endif %}
 </body>
-</html> 
+</html>
