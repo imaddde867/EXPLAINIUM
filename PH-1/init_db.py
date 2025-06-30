@@ -71,7 +71,11 @@ def verify_setup():
             """))
             tables = [row[0] for row in result]
             
-            expected_tables = ['documents', 'video_frames']
+            expected_tables = [
+                'documents', 'knowledge_entities', 'knowledge_relationships',
+                'content_categories', 'key_phrases', 'document_structures',
+                'video_frames'
+            ]
             missing_tables = [t for t in expected_tables if t not in tables]
             
             if missing_tables:
