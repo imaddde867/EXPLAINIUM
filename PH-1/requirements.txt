@@ -1,47 +1,47 @@
 # Core Framework
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-pydantic==2.5.0
-python-multipart==0.0.6
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+python-multipart==0.0.20
 
 # Database
-SQLAlchemy==2.0.23
-psycopg2-binary==2.9.9
-alembic==1.13.0
+SQLAlchemy==2.0.36
+psycopg2-binary==2.9.10
+alembic==1.14.0
 
 # Document Processing
-pdfplumber==0.10.3
-python-docx==1.1.0
-pytesseract==0.3.10
-Pillow==10.1.0
+pdfplumber==0.11.4
+python-docx==1.1.2
+pytesseract==0.3.13
+Pillow==11.0.0
 PyPDF2==3.0.1
 
 # Computer Vision & Video
-opencv-python==4.8.1.78
+opencv-python==4.10.0.84
 numpy>=1.26.0
 
 # Web Interface
-Jinja2==3.1.2
+Jinja2==3.1.4
 
 # Task Queue (for future use)
-celery==5.3.4
-redis==5.0.1
+celery==5.4.0
+redis==5.2.1
 
 # Utilities
-python-dotenv==1.0.0
-loguru==0.7.2
-httpx==0.25.2
+python-dotenv==1.0.1
+loguru==0.7.3
+httpx==0.28.1
 
 # Security
 passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.3.0
 
 # Development & Testing
-pytest==7.4.3
-pytest-asyncio==0.21.1
-black==23.11.0
-flake8==6.1.0
-isort==5.12.0
+pytest==8.3.4
+pytest-asyncio==0.24.0
+black==24.10.0
+flake8==7.1.1
+isort==5.13.2
 
 # Additional ML/AI Libraries (for future phases)
 # sentence-transformers==2.2.2
