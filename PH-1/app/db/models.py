@@ -14,7 +14,8 @@ class Document(Base):
     filetype = Column(String(50), nullable=False)
     status = Column(String(50), default='pending')
     content = Column(Text)
-    metadata = Column(JSON)
+    # naming conflict in SQLAlchemy with 'metadata', using 'document_metadata' instead
+    document_metadata = Column("metadata",JSON)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
@@ -23,6 +24,7 @@ class Document(Base):
     categories = relationship("ContentCategory", back_populates="document", cascade="all, delete-orphan")
     key_phrases = relationship("KeyPhrase", back_populates="document", cascade="all, delete-orphan")
     structures = relationship("DocumentStructure", back_populates="document", cascade="all, delete-orphan")
+    video_frames = relationship("VideoFrame", back_populates="document", cascade="all, delete-orphan")
 
 class KnowledgeEntity(Base):
     """Entity model for storing extracted named entities"""
@@ -95,8 +97,23 @@ class DocumentStructure(Base):
     structure_type = Column(String(50), nullable=False)  # section, list, table, etc.
     content = Column(Text, nullable=False)
     line_number = Column(Integer)
-    metadata = Column(JSON)
+    # naming conflict in SQLAlchemy with 'metadata', using 'document_metadata' instead
+    structure_metadata = Column("metadata",JSON)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     # Relationships
     document = relationship("Document", back_populates="structures")
+
+    
+class VideoFrame(Base):
+    """ Video frame model for storing frames extracted from video documents """
+    __tablename__ = 'video_frames'
+
+    id = Column(Integer, primary_key=True, index=True)
+    document_id = Column(Integer, ForeignKey('documents.id'), nullable=False)
+    frame_number = Column(Integer, nullable=False)
+    content = Column(Text, nullable=False)
+      
+    # relationships
+    document = relationship("Document", back_populates="video_frames")
+
