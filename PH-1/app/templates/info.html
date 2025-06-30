@@ -2,82 +2,279 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EXPLAINIUM - Smart Knowledge Extraction</title>
     <style>
-        body { font-family: 'PT Sans', Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .header { text-align: center; margin-bottom: 30px; }
-        .logo { color: #8e44ad; font-size: 2.5em; font-weight: bold; }
-        .subtitle { color: #333; background: #ffd200; padding: 10px; border-radius: 5px; display: inline-block; font-weight: bold; }
-        .info { background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffd200; }
-        .api-link { color: #8e44ad; text-decoration: none; font-weight: bold; }
-        .api-link:hover { text-decoration: underline; }
-        .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
-        .feature { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #8e44ad; }
-        .status { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+            color: #2563eb;
+            margin-bottom: 12px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #6b7280;
+            font-weight: 400;
+        }
+        
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0fdf4;
+            color: #15803d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 60px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 24px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            color: #4b5563;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            background: white;
+            padding: 32px 24px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+        
+        .feature:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+        
+        .feature-text {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+        
+        .api-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .endpoints {
+            display: grid;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .endpoint {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.9rem;
+        }
+        
+        .method {
+            background: #2563eb;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 12px;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .method.get { background: #059669; }
+        
+        .links {
+            display: flex;
+            gap: 32px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        
+        .link:hover {
+            border-bottom-color: #2563eb;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+        
+        .footer-subtitle {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 40px 20px; }
+            .logo { font-size: 2.5rem; }
+            .features { grid-template-columns: 1fr; }
+            .api-section { padding: 24px; }
+            .links { flex-direction: column; gap: 16px; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">EXPLAINIUM</div>
-            <div class="subtitle">Smart Knowledge Extraction System</div>
-        </div>
-        
-        <div class="status">
-            🟢 System Status: Active & Ready
-        </div>
-        
-        <div class="info">
-            <h3>🎯 About EXPLAINIUM</h3>
-            <p>EXPLAINIUM is an AI-powered knowledge extraction system designed for industrial applications. 
-            It processes documents and extracts meaningful knowledge including entities, relationships, and content classifications.</p>
-        </div>
-        
-        <div class="feature-list">
-            <div class="feature">
-                <h4>📄 Document Processing</h4>
-                <p>Supports PDF, DOCX, and TXT files with advanced text extraction capabilities.</p>
+        <header class="header">
+            <h1 class="logo">EXPLAINIUM</h1>
+            <p class="subtitle">Smart Knowledge Extraction System</p>
+            <div class="status">
+                <div class="status-dot"></div>
+                System Active
             </div>
-            <div class="feature">
-                <h4>🧠 Entity Recognition</h4>
-                <p>Automatically identifies equipment, safety items, processes, and personnel mentions.</p>
-            </div>
-            <div class="feature">
-                <h4>🔗 Relationship Mapping</h4>
-                <p>Discovers connections between entities to build knowledge graphs.</p>
-            </div>
-            <div class="feature">
-                <h4>📊 Content Classification</h4>
-                <p>Categorizes documents into safety manuals, procedures, training materials, etc.</p>
-            </div>
-        </div>
+        </header>
         
-        <div class="info">
-            <h3>🚀 API Endpoints</h3>
-            <ul>
-                <li><code>POST /api/v1/documents/upload</code> - Upload and process documents</li>
-                <li><code>GET /api/v1/documents/{id}</code> - Get document details</li>
-                <li><code>GET /api/v1/documents/{id}/entities</code> - Get extracted entities</li>
-                <li><code>GET /api/v1/documents/{id}/categories</code> - Get content categories</li>
-                <li><code>POST /api/v1/knowledge/search</code> - Search knowledge base</li>
-                <li><code>GET /api/v1/knowledge/stats</code> - Get extraction statistics</li>
-            </ul>
-        </div>
-        
-        <div class="info">
-            <h3>📚 Documentation</h3>
-            <p>
-                <a href="/docs" class="api-link">📖 Interactive API Documentation (Swagger UI)</a><br>
-                <a href="/redoc" class="api-link">📋 Alternative Documentation (ReDoc)</a><br>
-                <a href="/" class="api-link">🌐 Web Upload Interface</a>
+        <section class="section">
+            <p class="description">
+                AI-powered knowledge extraction system designed for industrial applications. 
+                Process documents and extract meaningful insights including entities, relationships, and content classifications.
             </p>
-        </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <h3 class="feature-title">Document Processing</h3>
+                    <p class="feature-text">Advanced text extraction from PDF, DOCX, and TXT files</p>
+                </div>
+                <div class="feature">
+                    <h3 class="feature-title">Entity Recognition</h3>
+                    <p class="feature-text">Identify equipment, safety items, processes, and personnel</p>
+                </div>
+                <div class="feature">
+                    <h3 class="feature-title">Relationship Mapping</h3>
+                    <p class="feature-text">Build knowledge graphs from entity connections</p>
+                </div>
+                <div class="feature">
+                    <h3 class="feature-title">Content Classification</h3>
+                    <p class="feature-text">Categorize documents by type and content</p>
+                </div>
+            </div>
+        </section>
         
-        <div style="text-align: center; margin-top: 30px; color: #666; border-top: 1px solid #eee; padding-top: 20px;">
-            <p><strong>TURKU AMK</strong> - Applied Sciences</p>
-            <p style="font-style: italic;">Building a "good life in a smart society" through excellence in applied AI science</p>
-        </div>
+        <section class="section">
+            <div class="api-section">
+                <h2 class="section-title">API Endpoints</h2>
+                
+                <div class="endpoints">
+                    <div class="endpoint">
+                        <span class="method">POST</span>
+                        <code>/api/v1/documents/upload</code>
+                    </div>
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <code>/api/v1/documents/{id}</code>
+                    </div>
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <code>/api/v1/documents/{id}/entities</code>
+                    </div>
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <code>/api/v1/documents/{id}/categories</code>
+                    </div>
+                    <div class="endpoint">
+                        <span class="method">POST</span>
+                        <code>/api/v1/knowledge/search</code>
+                    </div>
+                    <div class="endpoint">
+                        <span class="method get">GET</span>
+                        <code>/api/v1/knowledge/stats</code>
+                    </div>
+                </div>
+                
+                <div class="links">
+                    <a href="/docs" class="link">API Documentation</a>
+                    <a href="/redoc" class="link">Alternative Docs</a>
+                    <a href="/" class="link">Web Interface</a>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <div class="footer-title">TURKU AMK</div>
+            <div class="footer-subtitle">Building a good life in a smart society</div>
+        </footer>
     </div>
 </body>
 </html>
