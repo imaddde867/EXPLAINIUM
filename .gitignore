@@ -7,4 +7,4 @@ env/
 .env
 .DS_Store
 *.sqlite3
-test_data/ 
+PH-1/data/*
