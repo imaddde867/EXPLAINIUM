@@ -42,84 +42,44 @@ class ContentCategory:
     keywords: List[str]
 
 def extract_entities(text: str) -> List[Entity]:
-    """
-    Extract named entities from text using rule-based and pattern matching approaches.
-    
-    In a full implementation, this would use spaCy or similar NLP libraries.
-    For now, we use pattern matching for common industrial entities.
-    """
+    """Extract named entities from text using pattern matching for common industrial entities."""
     entities = []
     
-    # Equipment patterns
-    equipment_patterns = [
-        r'\b(?:pump|motor|valve|sensor|conveyor|robot|machine|equipment)\s*(?:#?\d+|[A-Z]\d+)?\b',
-        r'\b[A-Z]{2,4}-\d{2,6}\b',  # Equipment codes like PMP-001, VLV-123
-        r'\b(?:Model|Part|Serial)\s*(?:No\.?|Number)?\s*:?\s*([A-Z0-9-]+)\b'
-    ]
+    # Define entity patterns with their labels
+    entity_patterns = {
+        "EQUIPMENT": [
+            r'\b(?:pump|motor|valve|sensor|conveyor|robot|machine|equipment)\s*(?:#?\d+|[A-Z]\d+)?\b',
+            r'\b[A-Z]{2,4}-\d{2,6}\b',
+            r'\b(?:Model|Part|Serial)\s*(?:No\.?|Number)?\s*:?\s*([A-Z0-9-]+)\b'
+        ],
+        "SAFETY": [
+            r'\b(?:PPE|personal protective equipment|safety glasses|hard hat|gloves|respirator)\b',
+            r'\b(?:hazard|danger|warning|caution|risk)\b',
+            r'\b(?:OSHA|safety procedure|lockout|tagout|LOTO)\b'
+        ],
+        "PROCESS": [
+            r'\b(?:temperature|pressure|flow rate|speed|RPM|PSI|°F|°C)\b',
+            r'\b\d+\s*(?:PSI|RPM|°F|°C|GPM|CFM|Hz)\b',
+            r'\b(?:start|stop|pause|resume|emergency stop|e-stop)\b'
+        ],
+        "PERSON": [
+            r'\b(?:operator|technician|engineer|supervisor|manager|worker)\b',
+            r'\b[A-Z][a-z]+\s+[A-Z][a-z]+\b'  # Names
+        ]
+    }
     
-    for pattern in equipment_patterns:
-        matches = re.finditer(pattern, text, re.IGNORECASE)
-        for match in matches:
-            entities.append(Entity(
-                text=match.group(),
-                label="EQUIPMENT",
-                start=match.start(),
-                end=match.end(),
-                confidence=0.8
-            ))
-    
-    # Safety-related entities
-    safety_patterns = [
-        r'\b(?:PPE|personal protective equipment|safety glasses|hard hat|gloves|respirator)\b',
-        r'\b(?:hazard|danger|warning|caution|risk)\b',
-        r'\b(?:OSHA|safety procedure|lockout|tagout|LOTO)\b'
-    ]
-    
-    for pattern in safety_patterns:
-        matches = re.finditer(pattern, text, re.IGNORECASE)
-        for match in matches:
-            entities.append(Entity(
-                text=match.group(),
-                label="SAFETY",
-                start=match.start(),
-                end=match.end(),
-                confidence=0.9
-            ))
-    
-    # Process-related entities
-    process_patterns = [
-        r'\b(?:temperature|pressure|flow rate|speed|RPM|PSI|°F|°C)\b',
-        r'\b\d+\s*(?:PSI|RPM|°F|°C|GPM|CFM|Hz)\b',
-        r'\b(?:start|stop|pause|resume|emergency stop|e-stop)\b'
-    ]
-    
-    for pattern in process_patterns:
-        matches = re.finditer(pattern, text, re.IGNORECASE)
-        for match in matches:
-            entities.append(Entity(
-                text=match.group(),
-                label="PROCESS",
-                start=match.start(),
-                end=match.end(),
-                confidence=0.7
-            ))
-    
-    # Personnel and roles
-    personnel_patterns = [
-        r'\b(?:operator|technician|supervisor|manager|engineer|maintenance)\b',
-        r'\b(?:shift|team|crew|department)\s*(?:lead|leader|supervisor)?\b'
-    ]
-    
-    for pattern in personnel_patterns:
-        matches = re.finditer(pattern, text, re.IGNORECASE)
-        for match in matches:
-            entities.append(Entity(
-                text=match.group(),
-                label="PERSONNEL",
-                start=match.start(),
-                end=match.end(),
-                confidence=0.8
-            ))
+    for label, patterns in entity_patterns.items():
+        confidence = 0.9 if label == "SAFETY" else 0.8
+        for pattern in patterns:
+            matches = re.finditer(pattern, text, re.IGNORECASE)
+            for match in matches:
+                entities.append(Entity(
+                    text=match.group(),
+                    label=label,
+                    start=match.start(),
+                    end=match.end(),
+                    confidence=confidence
+                ))
     
     return entities
 
@@ -225,78 +185,22 @@ def classify_content(text: str) -> List[ContentCategory]:
     return categories
 
 def extract_key_phrases(text: str, max_phrases: int = 10) -> List[Tuple[str, float]]:
-    """
-    Extract key phrases from text using simple frequency and pattern analysis.
-    """
-    # Simple key phrase extraction using noun phrases and important terms
+    """Extract key phrases from text using simple pattern analysis."""
     phrases = []
     
-    # Pattern for potential key phrases (noun phrases, technical terms)
     phrase_patterns = [
         r'\b(?:[A-Z][a-z]+\s+){1,3}[A-Z][a-z]+\b',  # Capitalized phrases
         r'\b\d+\s*(?:PSI|RPM|°F|°C|GPM|CFM|Hz|mm|cm|inch|ft)\b',  # Technical measurements
         r'\b[A-Z]{2,}-\d+\b',  # Technical codes
-        r'\b(?:step|procedure|process|method|technique)\s+\d+\b'  # Procedural references
     ]
     
     for pattern in phrase_patterns:
         matches = re.findall(pattern, text)
         for match in matches:
-            # Simple scoring based on length and capitalization
             score = len(match.split()) * 0.3 + (1.0 if match[0].isupper() else 0.5)
             phrases.append((match, score))
     
-    # Remove duplicates and sort by score
     unique_phrases = list(set(phrases))
     unique_phrases.sort(key=lambda x: x[1], reverse=True)
     
     return unique_phrases[:max_phrases]
-
-def analyze_document_structure(text: str) -> Dict[str, any]:
-    """
-    Analyze the structure of a document to identify sections, lists, and formatting.
-    """
-    structure = {
-        "sections": [],
-        "lists": [],
-        "tables": [],
-        "references": []
-    }
-    
-    lines = text.split('\n')
-    
-    # Identify sections (lines that look like headers)
-    for i, line in enumerate(lines):
-        line = line.strip()
-        if line and (line.isupper() or re.match(r'^\d+\.?\s+[A-Z]', line)):
-            structure["sections"].append({
-                "title": line,
-                "line_number": i + 1
-            })
-    
-    # Identify lists (lines starting with bullets or numbers)
-    list_patterns = [
-        r'^\s*[-•*]\s+',  # Bullet points
-        r'^\s*\d+\.?\s+',  # Numbered lists
-        r'^\s*[a-zA-Z]\.?\s+'  # Lettered lists
-    ]
-    
-    for i, line in enumerate(lines):
-        for pattern in list_patterns:
-            if re.match(pattern, line):
-                structure["lists"].append({
-                    "content": line.strip(),
-                    "line_number": i + 1,
-                    "type": "bullet" if pattern.startswith(r'^\s*[-•*]') else "numbered"
-                })
-                break
-    
-    # Identify potential table content (lines with multiple columns)
-    for i, line in enumerate(lines):
-        if '\t' in line or '|' in line or len(re.findall(r'\s{3,}', line)) > 1:
-            structure["tables"].append({
-                "content": line.strip(),
-                "line_number": i + 1
-            })
-    
-    return structure

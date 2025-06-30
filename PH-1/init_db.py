@@ -43,9 +43,7 @@ def create_indexes():
     indexes = [
         "CREATE INDEX IF NOT EXISTS idx_documents_filetype ON documents(filetype);",
         "CREATE INDEX IF NOT EXISTS idx_documents_status ON documents(status);",
-        "CREATE INDEX IF NOT EXISTS idx_documents_created_at ON documents(created_at);",
-        "CREATE INDEX IF NOT EXISTS idx_video_frames_document_id ON video_frames(document_id);",
-        "CREATE INDEX IF NOT EXISTS idx_video_frames_frame_index ON video_frames(frame_index);"
+        "CREATE INDEX IF NOT EXISTS idx_documents_created_at ON documents(created_at);"
     ]
     
     try:

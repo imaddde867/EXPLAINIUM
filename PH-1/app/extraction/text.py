@@ -11,14 +11,12 @@ import tempfile
 import os
 import logging
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def extract_text_pdf(file: UploadFile) -> Optional[str]:
-    """Extract text from PDF files using pdfplumber"""
+    """Extract text from PDF files"""
     try:
-        file.file.seek(0)  # Ensure we're at the beginning
+        file.file.seek(0)
         with pdfplumber.open(file.file) as pdf:
             text_content = []
             for page_num, page in enumerate(pdf.pages):
@@ -29,7 +27,6 @@ def extract_text_pdf(file: UploadFile) -> Optional[str]:
                 except Exception as e:
                     logger.warning(f"Failed to extract text from page {page_num + 1}: {e}")
                     continue
-
             return "\n\n".join(text_content) if text_content else None
     except Exception as e:
         logger.error(f"PDF extraction failed: {e}")
@@ -40,13 +37,11 @@ def extract_text_docx(file: UploadFile) -> Optional[str]:
     try:
         file.file.seek(0)
         doc = docx.Document(file.file)
-
         text_content = []
         for para in doc.paragraphs:
             if para.text.strip():
                 text_content.append(para.text)
-
-        # Also extract text from tables
+        # Extract text from tables
         for table in doc.tables:
             for row in table.rows:
                 row_text = []
@@ -55,7 +50,6 @@ def extract_text_docx(file: UploadFile) -> Optional[str]:
                         row_text.append(cell.text.strip())
                 if row_text:
                     text_content.append(" | ".join(row_text))
-
         return "\n".join(text_content) if text_content else None
     except Exception as e:
         logger.error(f"DOCX extraction failed: {e}")
@@ -66,7 +60,6 @@ def extract_text_txt(file: UploadFile) -> Optional[str]:
     try:
         file.file.seek(0)
         content = file.file.read()
-
         # Try different encodings
         encodings = ['utf-8', 'utf-16', 'latin-1', 'cp1252']
         for encoding in encodings:
@@ -74,7 +67,6 @@ def extract_text_txt(file: UploadFile) -> Optional[str]:
                 return content.decode(encoding)
             except UnicodeDecodeError:
                 continue
-
         # If all encodings fail, use utf-8 with error handling
         return content.decode('utf-8', errors='replace')
     except Exception as e:
@@ -87,12 +79,8 @@ def extract_text_image(file: UploadFile) -> Optional[str]:
         file.file.seek(0)
         image_bytes = file.file.read()
         image = Image.open(io.BytesIO(image_bytes))
-
-        # Convert to RGB if necessary
         if image.mode != 'RGB':
             image = image.convert('RGB')
-
-        # Use pytesseract for OCR
         text = pytesseract.image_to_string(image, lang='eng')
         return text.strip() if text.strip() else None
     except Exception as e:
@@ -104,13 +92,11 @@ def extract_video_keyframes(file: UploadFile, frame_interval: int = 30, max_fram
     temp_path = None
     try:
         file.file.seek(0)
-
         # Save file to temporary location
         with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as tmp:
             tmp.write(file.file.read())
             temp_path = tmp.name
 
-        # Open video with OpenCV
         cap = cv2.VideoCapture(temp_path)
         if not cap.isOpened():
             raise Exception("Could not open video file")
@@ -125,12 +111,10 @@ def extract_video_keyframes(file: UploadFile, frame_interval: int = 30, max_fram
                 break
 
             if frame_count % frame_interval == 0:
-                # Convert frame to JPEG bytes
                 success, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
                 if success:
                     frames.append(buffer.tobytes())
                     extracted_count += 1
-
             frame_count += 1
 
         cap.release()
@@ -141,7 +125,6 @@ def extract_video_keyframes(file: UploadFile, frame_interval: int = 30, max_fram
         logger.error(f"Video frame extraction failed: {e}")
         raise HTTPException(status_code=500, detail=f"Video processing failed: {str(e)}")
     finally:
-        # Clean up temporary file
         if temp_path and os.path.exists(temp_path):
             try:
                 os.unlink(temp_path)

@@ -4,55 +4,24 @@ from typing import Literal, Union
 
 # Supported file types and their categories
 SUPPORTED_TYPES = {
-    '.pdf': 'pdf',
-    '.docx': 'docx',
-    '.txt': 'txt',
-    '.md': 'txt',
-    '.png': 'image',
-    '.jpg': 'image',
-    '.jpeg': 'image',
-    '.gif': 'image',
-    '.bmp': 'image',
-    '.tiff': 'image',
-    '.mp4': 'video',
-    '.avi': 'video',
-    '.mov': 'video',
-    '.mkv': 'video',
+    '.pdf': 'pdf', '.docx': 'docx', '.txt': 'txt', '.md': 'txt',
+    '.png': 'image', '.jpg': 'image', '.jpeg': 'image', '.gif': 'image', 
+    '.bmp': 'image', '.tiff': 'image',
+    '.mp4': 'video', '.avi': 'video', '.mov': 'video', '.mkv': 'video',
 }
 
 # File size limits (in bytes)
 MAX_FILE_SIZES = {
-    'pdf': 50 * 1024 * 1024,      # 50MB
-    'docx': 25 * 1024 * 1024,     # 25MB
-    'txt': 10 * 1024 * 1024,      # 10MB
-    'image': 20 * 1024 * 1024,    # 20MB
-    'video': 500 * 1024 * 1024,   # 500MB
+    'pdf': 50 * 1024 * 1024, 'docx': 25 * 1024 * 1024, 'txt': 10 * 1024 * 1024,
+    'image': 20 * 1024 * 1024, 'video': 500 * 1024 * 1024,
 }
 
 def detect_file_type(filename: str) -> Union[str, Literal['unsupported']]:
     """Detect file type based on extension"""
     if not filename:
         return 'unsupported'
-
     ext = os.path.splitext(filename)[1].lower()
     return SUPPORTED_TYPES.get(ext, 'unsupported')
-
-def validate_file(file: UploadFile) -> bool:
-    """Validate file type and basic properties"""
-    if not file.filename:
-        return False
-
-    filetype = detect_file_type(file.filename)
-    if filetype == 'unsupported':
-        return False
-
-    # Check file size if available
-    if hasattr(file, 'size') and file.size:
-        max_size = MAX_FILE_SIZES.get(filetype, 10 * 1024 * 1024)  # Default 10MB
-        if file.size > max_size:
-            return False
-
-    return True
 
 def validate_file_strict(file: UploadFile) -> None:
     """Strict validation with detailed error messages"""

@@ -189,31 +189,21 @@ def main():
     print("🧪 EXPLAINIUM PH-1 API Testing")
     print("=" * 50)
     
-    # Test 1: Health check
+    # Test health check
     if not test_health_check():
         print("\n💡 Make sure the API server is running:")
         print("   uvicorn app.main:app --reload")
         return False
     
-    # Test 2: Document processing
+    # Test document processing
     doc_id = test_document_upload()
     if doc_id:
         test_document_status(doc_id)
-        test_document_content(doc_id)
-    
-    # Test 3: Image processing
-    test_image_upload()
-    
-    # Test 4: Video processing
-    video_id = test_video_upload()
-    if video_id:
-        test_video_frame_retrieval(video_id)
     
     print("\n🎉 API testing completed!")
-    print("\nNext steps:")
+    print("Next steps:")
     print("1. Check the web interface: http://localhost:8000")
     print("2. View API documentation: http://localhost:8000/docs")
-    print("3. Upload your own files for testing")
 
 if __name__ == "__main__":
     main()

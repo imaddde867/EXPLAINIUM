@@ -1,20 +1,6 @@
 """
 EXPLAINIUM PH-1 - Smart Knowledge Extraction System
-
-Main FastAPI application providing intelligent document processing and knowledge extraction
-capabilities for industrial applications. This module serves as the foundation layer of
-the EXPLAINIUM AI factory management system.
-
-Features:
-- Multi-format document processing (PDF, DOCX, TXT, images, videos)
-- Intelligent text extraction with OCR capabilities
-- Named entity recognition and relationship extraction
-- Content classification and categorization
-- RESTful API with comprehensive documentation
-- Real-time processing status and progress tracking
-
-Author: EXPLAINIUM Development Team
-Version: 1.0.0
+Main FastAPI application for document processing and knowledge extraction
 """
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Form, Request
@@ -54,50 +40,19 @@ logger = logging.getLogger(__name__)
 # Initialize Jinja2 templates
 templates = Jinja2Templates(directory="app/templates")
 
-# Initialize FastAPI application with comprehensive metadata
+# Initialize FastAPI application
 app = FastAPI(
-    title="EXPLAINIUM PH-1 - Smart Knowledge Extraction System",
-    description="""
-    🧠 **EXPLAINIUM Phase 1** - Foundation Layer Implementation
-
-    Advanced AI-powered document processing and intelligent knowledge extraction system
-    designed for industrial applications. Transform unstructured company knowledge into
-    structured, searchable, and actionable intelligence.
-
-    ## 🚀 Key Features
-
-    * **Multi-format Processing**: PDF, DOCX, TXT, images, videos
-    * **Intelligent OCR**: Advanced text extraction with layout understanding
-    * **Entity Recognition**: Automatic identification of equipment, procedures, safety info
-    * **Content Classification**: Smart categorization of document types
-    * **RESTful API**: Clean, documented endpoints for seamless integration
-    * **Real-time Processing**: Asynchronous task processing with status tracking
-
-    ## 📊 Supported Formats
-
-    * **Documents**: PDF, DOCX, TXT, RTF
-    * **Images**: JPG, PNG, TIFF, BMP (with OCR)
-    * **Videos**: MP4, AVI, MOV (frame extraction)
-
-    Built with ❤️ following Turku UAS visual identity standards.
-    """,
+    title="EXPLAINIUM PH-1",
+    description="Smart Knowledge Extraction System for industrial document processing",
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc",
-    contact={
-        "name": "EXPLAINIUM Development Team",
-        "email": "support@explainium.ai",
-    },
-    license_info={
-        "name": "Proprietary License",
-        "url": "https://explainium.ai/license",
-    },
+    redoc_url="/redoc"
 )
 
-# Add CORS middleware for web interface compatibility
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -105,38 +60,22 @@ app.add_middleware(
 
 # Database dependency
 def get_db():
-    """Database session dependency"""
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
-# Health check endpoint
 @app.get("/health")
 def health_check():
-    """Health check endpoint"""
     return {"status": "healthy", "service": "EXPLAINIUM Knowledge Extraction"}
 
-# Simple web interface for testing
 @app.get("/", response_class=HTMLResponse)
 def root(request: Request):
-    """
-    Renders the main web interface for document upload and processing.
-    
-    Parameters:
-        request (Request): The incoming HTTP request object.
-    
-    Returns:
-        TemplateResponse: The rendered HTML page for the application's main interface.
-    """
     return templates.TemplateResponse("index.html", {"request": request})
 
-# Document processing endpoints
-@app.post("/api/v1/documents/upload", response_model=DocumentOut)
-def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db)):
-    """Upload and process documents with smart knowledge extraction"""
-    
+def process_document_content(file: UploadFile, db: Session):
+    """Helper function to process document content and extract knowledge"""
     # Validate file
     validate_file_strict(file)
     
@@ -144,71 +83,76 @@ def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db))
     if filetype not in ['pdf', 'docx', 'txt']:
         raise HTTPException(status_code=400, detail="Unsupported document type for knowledge extraction.")
     
+    file.file.seek(0)
+    
+    # Extract content based on file type
+    if filetype == 'pdf':
+        content = extract_text_pdf(file)
+    elif filetype == 'docx':
+        content = extract_text_docx(file)
+    elif filetype == 'txt':
+        content = extract_text_txt(file)
+    else:
+        content = None
+    
+    if not content or len(content.strip()) < 10:
+        raise HTTPException(status_code=400, detail="No extractable content found in document.")
+    
+    # Create document record
+    doc_in = DocumentCreate(
+        filename=file.filename, 
+        filetype=filetype, 
+        content=content,
+        metadata={"content_length": len(content)}
+    )
+    db_doc = create_document(db, doc_in, status='processing')
+    
+    # Perform knowledge extraction
     try:
-        file.file.seek(0)
+        # Extract entities
+        entities = extract_entities(content)
+        for entity in entities:
+            entity_create = EntityCreate(
+                document_id=db_doc.id,
+                text=entity.text,
+                label=entity.label,
+                confidence=entity.confidence,
+                start_position=entity.start,
+                end_position=entity.end
+            )
+            create_entity(db, entity_create)
         
-        # Extract content based on file type
-        if filetype == 'pdf':
-            content = extract_text_pdf(file)
-        elif filetype == 'docx':
-            content = extract_text_docx(file)
-        elif filetype == 'txt':
-            content = extract_text_txt(file)
-        else:
-            content = None
+        # Classify content
+        categories = classify_content(content)
+        for category in categories:
+            category_create = ContentCategoryCreate(
+                document_id=db_doc.id,
+                category=category.category,
+                confidence=category.confidence,
+                keywords=category.keywords
+            )
+            create_category(db, category_create)
         
-        if not content or len(content.strip()) < 10:
-            raise HTTPException(status_code=400, detail="No extractable content found in document.")
+        # Update document status
+        db_doc.status = 'completed'
+        db.commit()
         
-        # Create document record
-        doc_in = DocumentCreate(
-            filename=file.filename, 
-            filetype=filetype, 
-            content=content,
-            metadata={"content_length": len(content)}
-        )
-        db_doc = create_document(db, doc_in, status='processing')
+        logger.info(f"Successfully processed document {db_doc.id}: {len(entities)} entities, {len(categories)} categories")
+        return db_doc, entities, categories
         
-        # Perform knowledge extraction
-        try:
-            # Extract entities
-            entities = extract_entities(content)
-            for entity in entities:
-                entity_create = EntityCreate(
-                    document_id=db_doc.id,
-                    text=entity.text,
-                    label=entity.label,
-                    confidence=entity.confidence,
-                    start_position=entity.start,
-                    end_position=entity.end
-                )
-                create_entity(db, entity_create)
-            
-            # Classify content
-            categories = classify_content(content)
-            for category in categories:
-                category_create = ContentCategoryCreate(
-                    document_id=db_doc.id,
-                    category=category.category,
-                    confidence=category.confidence,
-                    keywords=category.keywords
-                )
-                create_category(db, category_create)
-            
-            # Update document status
-            db_doc.status = 'completed'
-            db.commit()
-            
-            logger.info(f"Successfully processed document {db_doc.id}: {len(entities)} entities, {len(categories)} categories")
-            
-        except Exception as e:
-            logger.error(f"Knowledge extraction failed for document {db_doc.id}: {e}")
-            db_doc.status = 'failed'
-            db.commit()
-            raise HTTPException(status_code=500, detail=f"Knowledge extraction failed: {str(e)}")
-        
+    except Exception as e:
+        logger.error(f"Knowledge extraction failed for document {db_doc.id}: {e}")
+        db_doc.status = 'failed'
+        db.commit()
+        raise HTTPException(status_code=500, detail=f"Knowledge extraction failed: {str(e)}")
+
+# Document processing endpoints
+@app.post("/api/v1/documents/upload", response_model=DocumentOut)
+def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """Upload and process documents with smart knowledge extraction"""
+    try:
+        db_doc, entities, categories = process_document_content(file, db)
         return db_doc
-        
     except Exception as e:
         logger.error(f"Document processing failed: {e}")
         raise HTTPException(status_code=500, detail=f"Document processing failed: {str(e)}")
@@ -232,7 +176,6 @@ def list_documents(
     """List documents with optional filtering"""
     documents = get_documents(db, skip=skip, limit=limit, filetype=filetype, status=status)
     
-    # Convert to summary format
     summaries = []
     for doc in documents:
         entity_count = len(get_entities_by_document(db, doc.id))
@@ -245,7 +188,7 @@ def list_documents(
             status=doc.status,
             content_length=len(doc.content) if doc.content else 0,
             entity_count=entity_count,
-            relationship_count=0,  # Simplified for now
+            relationship_count=0,
             created_at=doc.created_at
         )
         summaries.append(summary)
@@ -296,18 +239,7 @@ def search_knowledge(
     limit: int = Query(100, ge=1, le=1000),
     db: Session = Depends(get_db)
 ):
-    """
-    Searches for entities in the knowledge base matching the given query and optional filters.
-    
-    Parameters:
-        query (str): The search string to match against entity data.
-        entity_types (Optional[List[str]]): List of entity types to filter results.
-        min_confidence (float): Minimum confidence threshold for returned entities.
-        limit (int): Maximum number of entities to return.
-    
-    Returns:
-        List of entities matching the search criteria.
-    """
+    """Search for entities in the knowledge base"""
     entities = search_entities(
         db, 
         query=query, 
@@ -317,7 +249,6 @@ def search_knowledge(
     )
     return entities
 
-# Web interface upload endpoint
 @app.post("/upload-ui", response_class=HTMLResponse)
 def upload_ui(
     request: Request,
@@ -325,200 +256,33 @@ def upload_ui(
     upload_type: str = Form(...),
     db: Session = Depends(get_db)
 ):
-    """
-    Handles file uploads from the web interface, processes documents for knowledge extraction, and returns results in the rendered template.
-    
-    Depending on the upload type, validates and processes the uploaded file:
-    - For documents (PDF, DOCX, TXT): extracts text, creates a document record, performs entity extraction and content classification, and stores results in the database.
-    - For images and videos: returns placeholder messages indicating that OCR and video processing are not yet implemented.
-    
-    Returns:
-        TemplateResponse: The rendered "index.html" template with processing results or error messages.
-    """
+    """Handle file uploads from the web interface"""
     result = {"type": upload_type, "filename": file.filename}
     
     try:
-        # Validate file
-        validate_file_strict(file)
-        
-        filetype = detect_file_type(file.filename)
-        
         if upload_type == "document":
-            if filetype not in ['pdf', 'docx', 'txt']:
-                result["error"] = "Unsupported document type. Please use PDF, DOCX, or TXT files."
-                return templates.TemplateResponse("index.html", {"request": request, "result": result})
-            
-            # Extract content based on file type
-            file.file.seek(0)
-            if filetype == 'pdf':
-                content = extract_text_pdf(file)
-            elif filetype == 'docx':
-                content = extract_text_docx(file)
-            elif filetype == 'txt':
-                content = extract_text_txt(file)
-            else:
-                content = None
-            
-            if not content or len(content.strip()) < 10:
-                result["error"] = "No extractable content found in document."
-                return templates.TemplateResponse("index.html", {"request": request, "result": result})
-            
-            # Create document record
-            doc_in = DocumentCreate(
-                filename=file.filename, 
-                filetype=filetype, 
-                content=content,
-                metadata={"content_length": len(content)}
-            )
-            db_doc = create_document(db, doc_in, status='processing')
-            
-            # Perform knowledge extraction
-            try:
-                # Extract entities
-                entities = extract_entities(content)
-                for entity in entities:
-                    entity_create = EntityCreate(
-                        document_id=db_doc.id,
-                        text=entity.text,
-                        label=entity.label,
-                        confidence=entity.confidence,
-                        start_position=entity.start,
-                        end_position=entity.end
-                    )
-                    create_entity(db, entity_create)
-                
-                # Classify content
-                categories = classify_content(content)
-                for category in categories:
-                    category_create = ContentCategoryCreate(
-                        document_id=db_doc.id,
-                        category=category.category,
-                        confidence=category.confidence,
-                        keywords=category.keywords
-                    )
-                    create_category(db, category_create)
-                
-                # Update document status
-                db_doc.status = 'completed'
-                db.commit()
-                
-                result["content"] = content
-                result["entities_extracted"] = len(entities)
-                result["categories_identified"] = len(categories)
-                result["doc_id"] = db_doc.id
-                
-            except Exception as e:
-                logger.error(f"Knowledge extraction failed: {e}")
-                db_doc.status = 'failed'
-                db.commit()
-                result["error"] = f"Knowledge extraction failed: {str(e)}"
-        
+            db_doc, entities, categories = process_document_content(file, db)
+            result.update({
+                "content": db_doc.content,
+                "entities_extracted": len(entities),
+                "categories_identified": len(categories),
+                "doc_id": db_doc.id
+            })
         elif upload_type == "image":
-            # For now, just show that image was received
-            # You can implement OCR here if needed
-            result["ocr_text"] = "Image OCR functionality not yet implemented. Use API endpoint for full OCR capabilities."
-        
+            result["ocr_text"] = "Image OCR functionality not yet implemented."
         elif upload_type == "video":
-            # For now, just show that video was received
-            # You can implement frame extraction here if needed
-            result["frames_extracted"] = 0
-            result["preview_frames"] = []
-            result["message"] = "Video processing functionality not yet implemented. Use API endpoint for full video processing capabilities."
-    
+            result.update({
+                "frames_extracted": 0,
+                "preview_frames": [],
+                "message": "Video processing functionality not yet implemented."
+            })
     except Exception as e:
         logger.error(f"Upload processing failed: {e}")
         result["error"] = f"Upload processing failed: {str(e)}"
     
     return templates.TemplateResponse("index.html", {"request": request, "result": result})
 
-# API information endpoint
 @app.get("/info", response_class=HTMLResponse)
-def api_info():
-    """
-    Return a static HTML page with information about the EXPLAINIUM system, its features, API endpoints, and documentation links.
-    """
-    html_content = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>EXPLAINIUM - Smart Knowledge Extraction</title>
-        <style>
-            body { font-family: 'PT Sans', Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
-            .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-            .header { text-align: center; margin-bottom: 30px; }
-            .logo { color: #8e44ad; font-size: 2.5em; font-weight: bold; }
-            .subtitle { color: #333; background: #ffd200; padding: 10px; border-radius: 5px; display: inline-block; font-weight: bold; }
-            .info { background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffd200; }
-            .api-link { color: #8e44ad; text-decoration: none; font-weight: bold; }
-            .api-link:hover { text-decoration: underline; }
-            .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
-            .feature { background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #8e44ad; }
-            .status { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <div class="logo">EXPLAINIUM</div>
-                <div class="subtitle">Smart Knowledge Extraction System</div>
-            </div>
-            
-            <div class="status">
-                🟢 System Status: Active & Ready
-            </div>
-            
-            <div class="info">
-                <h3>🎯 About EXPLAINIUM</h3>
-                <p>EXPLAINIUM is an AI-powered knowledge extraction system designed for industrial applications. 
-                It processes documents and extracts meaningful knowledge including entities, relationships, and content classifications.</p>
-            </div>
-            
-            <div class="feature-list">
-                <div class="feature">
-                    <h4>📄 Document Processing</h4>
-                    <p>Supports PDF, DOCX, and TXT files with advanced text extraction capabilities.</p>
-                </div>
-                <div class="feature">
-                    <h4>🧠 Entity Recognition</h4>
-                    <p>Automatically identifies equipment, safety items, processes, and personnel mentions.</p>
-                </div>
-                <div class="feature">
-                    <h4>🔗 Relationship Mapping</h4>
-                    <p>Discovers connections between entities to build knowledge graphs.</p>
-                </div>
-                <div class="feature">
-                    <h4>📊 Content Classification</h4>
-                    <p>Categorizes documents into safety manuals, procedures, training materials, etc.</p>
-                </div>
-            </div>
-            
-            <div class="info">
-                <h3>🚀 API Endpoints</h3>
-                <ul>
-                    <li><code>POST /api/v1/documents/upload</code> - Upload and process documents</li>
-                    <li><code>GET /api/v1/documents/{id}</code> - Get document details</li>
-                    <li><code>GET /api/v1/documents/{id}/entities</code> - Get extracted entities</li>
-                    <li><code>GET /api/v1/documents/{id}/categories</code> - Get content categories</li>
-                    <li><code>POST /api/v1/knowledge/search</code> - Search knowledge base</li>
-                    <li><code>GET /api/v1/knowledge/stats</code> - Get extraction statistics</li>
-                </ul>
-            </div>
-            
-            <div class="info">
-                <h3>📚 Documentation</h3>
-                <p>
-                    <a href="/docs" class="api-link">📖 Interactive API Documentation (Swagger UI)</a><br>
-                    <a href="/redoc" class="api-link">📋 Alternative Documentation (ReDoc)</a><br>
-                    <a href="/" class="api-link">🌐 Web Upload Interface</a>
-                </p>
-            </div>
-            
-            <div style="text-align: center; margin-top: 30px; color: #666; border-top: 1px solid #eee; padding-top: 20px;">
-                <p><strong>TURKU AMK</strong> - Applied Sciences</p>
-                <p style="font-style: italic;">Building a "good life in a smart society" through excellence in applied AI science</p>
-            </div>
-        </div>
-    </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content)
+def api_info(request: Request):
+    """Return information about the EXPLAINIUM system"""
+    return templates.TemplateResponse("info.html", {"request": request})
