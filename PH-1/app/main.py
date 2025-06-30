@@ -18,7 +18,7 @@ import os
 from app.ingestion.router import detect_file_type, validate_file_strict
 from app.extraction.text import extract_text_pdf, extract_text_docx, extract_text_txt
 from app.extraction.knowledge import extract_entities, extract_relationships, classify_content
-from app.db.session import SessionLocal
+from app.db.session import SessionLocal, get_db_info
 from app.db.crud import (
     create_document, get_document, get_documents, create_entity, create_relationship,
     create_category, get_entities_by_document, get_categories_by_document,
@@ -69,6 +69,11 @@ def get_db():
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "service": "EXPLAINIUM Knowledge Extraction"}
+
+@app.get("/db-info")
+def database_info():
+    """Get information about the current database configuration"""
+    return get_db_info()
 
 @app.get("/", response_class=HTMLResponse)
 def root(request: Request):
@@ -286,3 +291,11 @@ def upload_ui(
 def api_info(request: Request):
     """Return information about the EXPLAINIUM system"""
     return templates.TemplateResponse("info.html", {"request": request})
+
+# Database info endpoint
+@app.get("/db-info")
+def database_info():
+    """Get current database information"""
+    return get_db_info()
+
+

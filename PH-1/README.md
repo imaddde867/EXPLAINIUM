@@ -18,6 +18,88 @@ PH-1 is the foundational module of EXPLAINIUM, focused specifically on **smart k
 - **Content Classification**: Smart categorization of document types
 - **Semantic Search**: Vector-based similarity search
 - **RESTful API**: Clean, documented API for integration
+- **Auto Database Setup**: Automatic detection and setup of PostgreSQL or SQLite
+
+---
+
+## 🚀 Quick Start
+
+### Option 1: Automatic Setup (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/imaddde867/EXPLAINIUM.git
+cd EXPLAINIUM/PH-1
+
+# Run the automatic setup script
+./setup.sh
+
+
+### Option 2: Manual Setup
+
+1. **Create and activate virtual environment**:
+```bash
+python3 -m venv env
+source env/bin/activate  # On Windows: env\Scripts\activate
+```
+
+2. **Install dependencies**:
+```bash
+pip install -r requirements.txt
+```
+
+3. **Database Setup**:
+   - **PostgreSQL** (optional): If you have PostgreSQL installed and running
+   - **SQLite** (automatic): No setup required, will be used automatically
+
+4. **Initialize database**:
+```bash
+python init_db.py
+```
+
+5. **Start the application**:
+```bash
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### 🌐 Access Points
+
+Once running, access the system at:
+
+- **Web Interface**: http://localhost:8000
+- **API Documentation**: http://localhost:8000/docs
+- **Database Info**: http://localhost:8000/db-info
+- **Health Check**: http://localhost:8000/health
+
+---
+
+## 💾 Database Configuration
+
+PH-1 automatically detects and configures the appropriate database:
+
+### PostgreSQL (Recommended for Production)
+- **Auto-detection**: If PostgreSQL is running, it will be used automatically
+- **Manual setup**: Install PostgreSQL and create a database named `docdb`
+- **Environment variables**: Customize connection via env vars
+
+### SQLite (Default Fallback)
+- **Zero configuration**: Works out of the box
+- **Automatic setup**: Database file created automatically in `data/` directory
+- **Perfect for**: Development, testing, and small deployments
+
+### Environment Variables
+
+```bash
+# PostgreSQL Configuration (optional)
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=docdb
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+
+# Force database type (optional)
+DB_TYPE=auto          # auto, postgresql, sqlite
+```
 
 ---
 
