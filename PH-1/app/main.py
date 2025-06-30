@@ -121,7 +121,15 @@ def health_check():
 # Simple web interface for testing
 @app.get("/", response_class=HTMLResponse)
 def root(request: Request):
-    """Main web interface for document upload and processing"""
+    """
+    Renders the main web interface for document upload and processing.
+    
+    Parameters:
+        request (Request): The incoming HTTP request object.
+    
+    Returns:
+        TemplateResponse: The rendered HTML page for the application's main interface.
+    """
     return templates.TemplateResponse("index.html", {"request": request})
 
 # Document processing endpoints
@@ -288,7 +296,18 @@ def search_knowledge(
     limit: int = Query(100, ge=1, le=1000),
     db: Session = Depends(get_db)
 ):
-    """Search entities in the knowledge base"""
+    """
+    Searches for entities in the knowledge base matching the given query and optional filters.
+    
+    Parameters:
+        query (str): The search string to match against entity data.
+        entity_types (Optional[List[str]]): List of entity types to filter results.
+        min_confidence (float): Minimum confidence threshold for returned entities.
+        limit (int): Maximum number of entities to return.
+    
+    Returns:
+        List of entities matching the search criteria.
+    """
     entities = search_entities(
         db, 
         query=query, 
@@ -306,7 +325,16 @@ def upload_ui(
     upload_type: str = Form(...),
     db: Session = Depends(get_db)
 ):
-    """Handle file uploads from the web interface"""
+    """
+    Handles file uploads from the web interface, processes documents for knowledge extraction, and returns results in the rendered template.
+    
+    Depending on the upload type, validates and processes the uploaded file:
+    - For documents (PDF, DOCX, TXT): extracts text, creates a document record, performs entity extraction and content classification, and stores results in the database.
+    - For images and videos: returns placeholder messages indicating that OCR and video processing are not yet implemented.
+    
+    Returns:
+        TemplateResponse: The rendered "index.html" template with processing results or error messages.
+    """
     result = {"type": upload_type, "filename": file.filename}
     
     try:
@@ -406,7 +434,9 @@ def upload_ui(
 # API information endpoint
 @app.get("/info", response_class=HTMLResponse)
 def api_info():
-    """API information page (original static page)"""
+    """
+    Return a static HTML page with information about the EXPLAINIUM system, its features, API endpoints, and documentation links.
+    """
     html_content = """
     <!DOCTYPE html>
     <html>
