@@ -24,6 +24,7 @@ class Document(Base):
     categories = relationship("ContentCategory", back_populates="document", cascade="all, delete-orphan")
     key_phrases = relationship("KeyPhrase", back_populates="document", cascade="all, delete-orphan")
     structures = relationship("DocumentStructure", back_populates="document", cascade="all, delete-orphan")
+    video_frames = relationship("VideoFrame", back_populates="document", cascade="all, delete-orphan")
 
 class KnowledgeEntity(Base):
     """Entity model for storing extracted named entities"""
@@ -102,3 +103,17 @@ class DocumentStructure(Base):
 
     # Relationships
     document = relationship("Document", back_populates="structures")
+
+    
+class VideoFrame(Base):
+    """ Video frame model for storing frames extracted from video documents """
+    __tablename__ = 'video_frames'
+
+    id = Column(Integer, primary_key=True, index=True)
+    document_id = Column(Integer, ForeignKey('documents.id'), nullable=False)
+    frame_number = Column(Integer, nullable=False)
+    content = Column(Text, nullable=False)
+      
+    # relationships
+    document = relationship("Document", back_populates="video_frames")
+
