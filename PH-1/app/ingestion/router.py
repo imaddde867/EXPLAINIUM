@@ -1,6 +1,8 @@
 import os
-from fastapi import UploadFile, HTTPException
-from typing import Literal, Union
+from fastapi import UploadFile, HTTPException, APIRouter
+from typing import Literal, Union, Optional
+from PIL import Image
+import pytesseract
 
 # Supported file types and their categories
 SUPPORTED_TYPES = {
@@ -16,14 +18,14 @@ MAX_FILE_SIZES = {
     'image': 20 * 1024 * 1024, 'video': 500 * 1024 * 1024,
 }
 
-def detect_file_type(filename: str) -> Union[str, Literal['unsupported']]:
+async def detect_file_type(filename: str) -> Union[str, Literal['unsupported']]:
     """Detect file type based on extension"""
     if not filename:
         return 'unsupported'
     ext = os.path.splitext(filename)[1].lower()
     return SUPPORTED_TYPES.get(ext, 'unsupported')
 
-def validate_file_strict(file: UploadFile) -> None:
+async def validate_file_strict(file: UploadFile) -> None:
     """Strict validation with detailed error messages"""
     if not file.filename:
         raise HTTPException(status_code=400, detail="No filename provided")
@@ -45,3 +47,30 @@ def validate_file_strict(file: UploadFile) -> None:
                 status_code=400,
                 detail=f"File too large. Maximum size for {filetype} files: {max_size_mb}MB"
             )
+        
+async def extract_text_image(file: UploadFile) -> Optional[str]:
+    """Extract text from image using OCR"""
+    try:
+        file.file.seek(0)
+        image_bytes = file.file.read()
+        image = Image.open(io.BytesIO(image_bytes))
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        text = pytesseract.image_to_string(image, lang='eng')
+        return text.strip() if text.strip() else None
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"OCR failed: {str(e)}")
+
+        
+router = APIRouter()
+@router.post("/upload-image")
+async def upload_file(file: UploadFile):
+    validate_file_strict(file)
+    filetype = detect_file_type(file.filename)
+
+    if filetype == "image":
+        text  = extract_text_image(file)
+        return {"extracted_text": text}
+    else:
+        raise HTTPException(status_code=400, detail="Only image files are supported for text extraction")
+

@@ -12,6 +12,8 @@ fi
 # Install packages
 pip install -r requirements.txt
 
+command -v tesseract >/dev/null 2>&1 || { echo "Error: Tesseract OCR is not installed or not in PATH. Please install it."; exit 1; }
+
 # Database setup
 if command -v psql >/dev/null && pg_isready >/dev/null 2>&1; then
     if createdb docdb 2>/dev/null || psql -d docdb -c "SELECT 1;" >/dev/null 2>&1; then
