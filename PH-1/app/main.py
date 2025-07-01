@@ -281,9 +281,8 @@ async def upload_ui(
             image = Image.open(io.BytesIO(image_bytes))
 
             # Perform OCR
-
             ocr_text = pytesseract.image_to_string(image)
-
+            
             result["ocr_text"] = ocr_text
 
         elif upload_type == "video":
