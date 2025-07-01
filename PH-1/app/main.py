@@ -10,6 +10,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from PIL import Image
+import pytesseract
+import io
 import time
 import logging
 import os
@@ -255,7 +258,7 @@ def search_knowledge(
     return entities
 
 @app.post("/upload-ui", response_class=HTMLResponse)
-def upload_ui(
+async def upload_ui(
     request: Request,
     file: UploadFile = File(...),
     upload_type: str = Form(...),
@@ -274,7 +277,15 @@ def upload_ui(
                 "doc_id": db_doc.id
             })
         elif upload_type == "image":
-            result["ocr_text"] = "Image OCR functionality not yet implemented."
+            image_bytes = await file.read()
+            image = Image.open(io.BytesIO(image_bytes))
+
+            # Perform OCR
+
+            ocr_text = pytesseract.image_to_string(image)
+
+            result["ocr_text"] = ocr_text
+
         elif upload_type == "video":
             result.update({
                 "frames_extracted": 0,

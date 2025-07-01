@@ -1,6 +1,8 @@
 import os
-from fastapi import UploadFile, HTTPException
-from typing import Literal, Union
+from fastapi import UploadFile, HTTPException, APIRouter
+from typing import Literal, Union, Optional
+from PIL import Image
+import pytesseract
 
 # Supported file types and their categories
 SUPPORTED_TYPES = {
@@ -45,3 +47,30 @@ def validate_file_strict(file: UploadFile) -> None:
                 status_code=400,
                 detail=f"File too large. Maximum size for {filetype} files: {max_size_mb}MB"
             )
+        
+def extract_text_image(file: UploadFile) -> Optional[str]:
+    """Extract text from image using OCR"""
+    try:
+        file.file.seek(0)
+        image_bytes = file.file.read()
+        image = Image.open(io.BytesIO(image_bytes))
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        text = pytesseract.image_to_string(image, lang='eng')
+        return text.strip() if text.strip() else None
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"OCR failed: {str(e)}")
+
+        
+router = APIRouter()
+@router.post("/upload-image")
+async def upload_file(file: UploadFile):
+    validate_file_strict(file)
+    filetype = detect_file_type(file.filename)
+
+    if filetype == "image":
+        text  = extract_text_image(file)
+        return {"extracted_text": text}
+    else:
+        raise HTTPException(status_code=400, detail="Only image files are supported for text extraction")
+
