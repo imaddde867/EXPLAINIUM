@@ -195,7 +195,6 @@ graph LR
     subgraph "🗃️ Data Layer"
         POSTGRES[PostgreSQL<br/>Primary Database]
         SQLALCHEMY[SQLAlchemy<br/>ORM Framework]
-        ALEMBIC[Alembic<br/>Database Migrations]
     end
     
     subgraph "🔧 Utilities"
@@ -214,7 +213,6 @@ graph LR
     TESSERACT --> PADDLE
     
     POSTGRES --> SQLALCHEMY
-    SQLALCHEMY --> ALEMBIC
     
     PYPDF --> DOCX
     PILLOW --> OPENCV
@@ -226,7 +224,7 @@ graph LR
     
     class FASTAPI,UVICORN,PYDANTIC webStyle
     class SPACY,TESSERACT,PADDLE,SKLEARN aiStyle
-    class POSTGRES,SQLALCHEMY,ALEMBIC dataStyle
+    class POSTGRES,SQLALCHEMY dataStyle
     class PYPDF,DOCX,PILLOW,OPENCV utilStyle
 ```
 
