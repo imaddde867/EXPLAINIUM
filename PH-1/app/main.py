@@ -7,7 +7,6 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Fo
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from PIL import Image
@@ -15,7 +14,6 @@ import pytesseract
 import io
 import time
 import logging
-import os
 
 # Import application modules
 from app.ingestion.router import detect_file_type, validate_file_strict
@@ -301,11 +299,5 @@ async def upload_ui(
 def api_info(request: Request):
     """Return information about the EXPLAINIUM system"""
     return templates.TemplateResponse("info.html", {"request": request})
-
-# Database info endpoint
-@app.get("/db-info")
-def database_info():
-    """Get current database information"""
-    return get_db_info()
 
 

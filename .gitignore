@@ -7,4 +7,4 @@ env/
 .env
 .DS_Store
 *.sqlite3
-PH-1/data/*
+PH-1/data/explainium.db
