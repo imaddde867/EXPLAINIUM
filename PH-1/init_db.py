@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EXPLAINIUM PH-1 Database Initialization Script
+EXPLAINIUM Database Initialization Script
 
 This script initializes the database for the EXPLAINIUM document processing system.
 It automatically detects available database systems and sets up the appropriate one.
