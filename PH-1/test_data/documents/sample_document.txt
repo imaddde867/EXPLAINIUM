@@ -1,0 +1,26 @@
+This is a sample text document for testing the EXPLAINIUM PH-1 system.
+
+The system should be able to extract this text and perform knowledge extraction.
+
+Sample entities in this document:
+- ORGANIZATION: EXPLAINIUM
+- TECHNOLOGY: Natural Language Processing
+- LOCATION: Finland
+- DATE: 2024
+
+This document contains various types of information that can be categorized as:
+- Technical documentation
+- System specifications
+- Test content
+
+The knowledge extraction system should identify entities like organizations, 
+technologies, locations, and dates from this content.
+
+Additional test content:
+- Model number: PH-1
+- Version: 1.0.0
+- Performance: High accuracy text extraction
+- Languages: English, Finnish
+
+Industrial applications include document management, compliance checking,
+and automated knowledge discovery from technical documentation.

@@ -48,36 +48,30 @@ def extract_entities(text: str) -> List[Entity]:
     # More precise entity patterns with word boundaries
     entity_patterns = {
         "ORGANIZATION": [
-            r'\b(?:EXPLAINIUM|Turku UAS|Turku University|Nokia|Microsoft|Google|Apple|Amazon|Meta|Tesla)\b',
-            r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+(?:Inc|Corp|Ltd|LLC|Group|Company|Organization|University|Institute)\b',
-            r'\b[A-Z]{2,}(?:\s+[A-Z]{2,})*\b'  # Acronyms like "IBM", "NASA"
+            r'\bEXPLAINIUM\b',
+            r'\b(?:Turku UAS|Turku University|Nokia|Microsoft|Google|Apple|Amazon|Meta|Tesla)\b',
+            r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\s+(?:Inc|Corp|Ltd|LLC|Group|Company|Organization|University|Institute)\b'
         ],
         "TECHNOLOGY": [
-            r'\b(?:Natural Language Processing|Machine Learning|Artificial Intelligence|AI|ML|NLP|Computer Vision|OCR|API|FastAPI|Python|PostgreSQL|SQLite)\b',
-            r'\b(?:framework|algorithm|software|platform|system|engine|processor|database)\b',
+            r'\bNatural Language Processing\b',
+            r'\b(?:Machine Learning|Artificial Intelligence|Computer Vision|OCR)\b',
+            r'\b(?:AI|ML|NLP|API|FastAPI|Python|PostgreSQL|SQLite)\b',
             r'\bPH-\d+\b'  # Model numbers like PH-1
         ],
         "LOCATION": [
-            r'\b(?:Finland|Helsinki|Turku|Stockholm|Copenhagen|Oslo|London|Berlin|Paris|New York|California|Europe|Nordic)\b',
-            r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*(?:\s+(?:City|County|Region|Province|State|Country))\b'
+            r'\b(?:Finland|Helsinki|Turku|Stockholm|Copenhagen|Oslo|London|Berlin|Paris|New York|California|Europe|Nordic)\b'
         ],
         "DATE": [
             r'\b(?:2024|2023|2025|2022)\b',
             r'\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}\b',
             r'\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b'
         ],
-        "PERSON": [
-            r'\b(?:Dr|Prof|Mr|Ms|Mrs)\.\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b',
-            r'\b[A-Z][a-z]+\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\b(?=\s+(?:said|wrote|developed|created|designed))'
-        ],
         "EQUIPMENT": [
-            r'\b(?:Model|Version|Build)\s+(?:number\s+)?[A-Z0-9-]+\b',
-            r'\b[A-Z0-9-]+\s+(?:system|device|equipment|machine|tool|instrument)\b',
+            r'\b(?:Model number|Version):\s*[A-Z0-9.-]+\b',
             r'\bversion\s+\d+\.\d+(?:\.\d+)?\b'
         ],
         "PROCESS": [
-            r'\b(?:extraction|processing|analysis|classification|recognition|detection|validation|optimization)\b',
-            r'\b(?:document management|compliance checking|knowledge discovery|automated processing)\b'
+            r'\b(?:text extraction|knowledge extraction|document processing|compliance checking|document management)\b'
         ]
     }
     
@@ -96,7 +90,7 @@ def extract_entities(text: str) -> List[Entity]:
                 confidence = calculate_entity_confidence(matched_text, label, text, match.start(), match.end())
                 
                 # Only include entities with reasonable confidence
-                if confidence >= 0.5:
+                if confidence >= 0.7:
                     entities.append(Entity(
                         text=matched_text,
                         label=label,
