@@ -18,7 +18,7 @@ def create_document(db: Session, doc: DocumentCreate, status: str = 'pending') -
         filename=doc.filename,
         filetype=doc.filetype,
         content=doc.content,
-        metadata=doc.metadata,
+        document_metadata=doc.metadata,
         status=status
     )
     db.add(db_doc)

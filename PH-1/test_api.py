@@ -50,7 +50,7 @@ def test_document_upload():
             data = response.json()
             print(f"✅ Document upload successful: ID {data['id']}")
             print(f"   Filename: {data['filename']}")
-            print(f"   Content length: {data['content_length']}")
+            print(f"   Status: {data['status']}")
             return data['id']
         else:
             print(f"❌ Document upload failed: {response.status_code}")
@@ -70,16 +70,16 @@ def test_document_status(doc_id):
         return False
     
     try:
-        response = requests.get(f"{BASE_URL}/api/v1/documents/{doc_id}/status")
+        response = requests.get(f"{BASE_URL}/api/v1/documents/{doc_id}")
         if response.status_code == 200:
             data = response.json()
-            print(f"✅ Document status check successful: {data['status']}")
+            print(f"✅ Document details retrieval successful: {data['status']}")
             return True
         else:
-            print(f"❌ Document status check failed: {response.status_code}")
+            print(f"❌ Document details retrieval failed: {response.status_code}")
             return False
     except Exception as e:
-        print(f"❌ Document status error: {e}")
+        print(f"❌ Document details error: {e}")
         return False
 
 def test_document_content(doc_id):

@@ -133,7 +133,6 @@ data/*.db
 data/*.sqlite
 data/*.sqlite3
 temp_test.txt
-test_data/
 uploads/
 logs/
 

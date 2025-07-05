@@ -284,10 +284,21 @@ async def upload_ui(
             result["ocr_text"] = ocr_text
 
         elif upload_type == "video":
+            from app.extraction.video import extract_video_keyframes, extract_text_from_video_frames, get_video_text_summary
+            
+            # Extract video frames
+            frames_data = extract_video_keyframes(file, frame_interval=60, max_frames=10)
+            
+            # Extract text from frames
+            text_data = extract_text_from_video_frames(frames_data)
+            summary = get_video_text_summary(text_data)
+            
             result.update({
-                "frames_extracted": 0,
-                "preview_frames": [],
-                "message": "Video processing functionality not yet implemented."
+                "frames_extracted": len(frames_data),
+                "frames_with_text": summary.get("frames_with_text", 0),
+                "total_text_extracted": summary.get("combined_text_length", 0),
+                "text_summary": summary.get("combined_text", "")[:500] + "..." if len(summary.get("combined_text", "")) > 500 else summary.get("combined_text", ""),
+                "extraction_success": summary.get("extraction_success", False)
             })
     except Exception as e:
         logger.error(f"Upload processing failed: {e}")

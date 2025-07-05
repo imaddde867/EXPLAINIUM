@@ -1,7 +1,7 @@
 import pdfplumber
 import docx
 from fastapi import UploadFile, HTTPException
-from typing import Optional, List
+from typing import Optional, List, Dict
 import pytesseract
 from PIL import Image
 import io
@@ -74,59 +74,21 @@ def extract_text_txt(file: UploadFile) -> Optional[str]:
         raise HTTPException(status_code=500, detail=f"Text processing failed: {str(e)}")
 
 def extract_text_image(file: UploadFile) -> Optional[str]:
-    """Extract text from images using OCR"""
+    """Extract text from images using OCR with preprocessing"""
     try:
-        file.file.seek(0)
-        image_bytes = file.file.read()
-        image = Image.open(io.BytesIO(image_bytes))
-        if image.mode != 'RGB':
-            image = image.convert('RGB')
-        text = pytesseract.image_to_string(image, lang='eng')
-        return text.strip() if text.strip() else None
+        # Import here to avoid circular imports
+        from .image import extract_text_from_image
+        return extract_text_from_image(file, preprocess=True)
     except Exception as e:
         logger.error(f"OCR extraction failed: {e}")
         raise HTTPException(status_code=500, detail=f"Image OCR processing failed: {str(e)}")
 
-def extract_video_keyframes(file: UploadFile, frame_interval: int = 30, max_frames: int = 50) -> List[bytes]:
+def extract_video_keyframes(file: UploadFile, frame_interval: int = 30, max_frames: int = 50) -> List[Dict]:
     """Extract key frames from video files"""
-    temp_path = None
     try:
-        file.file.seek(0)
-        # Save file to temporary location
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as tmp:
-            tmp.write(file.file.read())
-            temp_path = tmp.name
-
-        cap = cv2.VideoCapture(temp_path)
-        if not cap.isOpened():
-            raise Exception("Could not open video file")
-
-        frames = []
-        frame_count = 0
-        extracted_count = 0
-
-        while cap.isOpened() and extracted_count < max_frames:
-            ret, frame = cap.read()
-            if not ret:
-                break
-
-            if frame_count % frame_interval == 0:
-                success, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
-                if success:
-                    frames.append(buffer.tobytes())
-                    extracted_count += 1
-            frame_count += 1
-
-        cap.release()
-        logger.info(f"Extracted {len(frames)} frames from video")
-        return frames
-
+        # Import here to avoid circular imports
+        from .video import extract_video_keyframes as extract_frames
+        return extract_frames(file, frame_interval, max_frames)
     except Exception as e:
         logger.error(f"Video frame extraction failed: {e}")
         raise HTTPException(status_code=500, detail=f"Video processing failed: {str(e)}")
-    finally:
-        if temp_path and os.path.exists(temp_path):
-            try:
-                os.unlink(temp_path)
-            except Exception as e:
-                logger.warning(f"Failed to delete temporary file: {e}")

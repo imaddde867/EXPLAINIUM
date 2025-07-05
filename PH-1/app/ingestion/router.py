@@ -1,4 +1,5 @@
 import os
+import io
 from fastapi import UploadFile, HTTPException, APIRouter
 from typing import Literal, Union, Optional
 from PIL import Image
@@ -18,14 +19,14 @@ MAX_FILE_SIZES = {
     'image': 20 * 1024 * 1024, 'video': 500 * 1024 * 1024,
 }
 
-async def detect_file_type(filename: str) -> Union[str, Literal['unsupported']]:
+def detect_file_type(filename: str) -> Union[str, Literal['unsupported']]:
     """Detect file type based on extension"""
     if not filename:
         return 'unsupported'
     ext = os.path.splitext(filename)[1].lower()
     return SUPPORTED_TYPES.get(ext, 'unsupported')
 
-async def validate_file_strict(file: UploadFile) -> None:
+def validate_file_strict(file: UploadFile) -> None:
     """Strict validation with detailed error messages"""
     if not file.filename:
         raise HTTPException(status_code=400, detail="No filename provided")

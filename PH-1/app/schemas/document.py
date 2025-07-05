@@ -25,12 +25,14 @@ class DocumentUpdate(BaseModel):
 class DocumentOut(DocumentBase):
     """Document output model"""
     id: int
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[Dict[str, Any]] = Field(None, alias="document_metadata") 
     created_at: datetime
     updated_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
+        populate_by_name = True
+        by_alias = True
 
 class DocumentList(BaseModel):
     """Document list response model"""
