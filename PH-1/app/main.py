@@ -29,7 +29,7 @@ from app.schemas.document import DocumentCreate, DocumentOut, DocumentSummary
 from app.schemas.knowledge import (
     EntityOut, RelationshipOut, ContentCategoryOut, EntityCreate, 
     ContentCategoryCreate, SearchRequest, SearchResponse, KnowledgeExtractionStats,
-    VideoFrameCreate, VideoFrameOut
+    VideoFrameCreate, VideoFrameOut, RelationshipCreate
 )
 
 # Configure logging
@@ -178,16 +178,24 @@ async def upload_image(file: UploadFile = File(...), db: Session = Depends(get_d
     if filetype != 'image':
         raise HTTPException(status_code=400, detail="Only image files are supported.")
 
-    from app.extraction.image import extract_text_from_image
-    content = extract_text_from_image(file)
+    from app.extraction.image import extract_text_from_image, get_image_metadata, detect_image_quality
+    try:
+        content = extract_text_from_image(file)
+        metadata = get_image_metadata(file)
+        quality = detect_image_quality(file)
+    except Exception as e:
+        logger.error(f"Image processing failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Image processing failed: {str(e)}")
+
     doc_in = DocumentCreate(
         filename=file.filename,
         filetype=filetype,
         content=content,
-        metadata={"content_length": len(content) if content else 0}
+        metadata={"content_length": len(content) if content else 0, "image_metadata": metadata, "image_quality": quality}
     )
     db_doc = create_document(db, doc_in, status='completed')
-    return db_doc
+    # Return extra OCR text for test script compatibility
+    return {**db_doc.__dict__, "ocr_text": content or ""}
 
 @app.post("/api/v1/videos/upload", response_model=DocumentOut)
 async def upload_video(file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -197,30 +205,26 @@ async def upload_video(file: UploadFile = File(...), db: Session = Depends(get_d
     if filetype != 'video':
         raise HTTPException(status_code=400, detail="Only video files are supported.")
 
-    from app.extraction.video import extract_video_keyframes, extract_text_from_video_frames, get_video_text_summary
-    frames_data = extract_video_keyframes(file, frame_interval=60, max_frames=10)
-    text_data = extract_text_from_video_frames(frames_data)
-    summary = get_video_text_summary(text_data)
+    from app.extraction.video import extract_video_keyframes, extract_text_from_video_frames
+    try:
+        frames_data = extract_video_keyframes(file, frame_interval=60, max_frames=10)
+        text_data = extract_text_from_video_frames(frames_data)
+        frames_extracted = len(frames_data)
+        preview_frames = [f["frame_number"] for f in frames_data]
+        combined_text = " ".join([f.get("text_extracted", "") for f in text_data if f.get("has_text")])
+    except Exception as e:
+        logger.error(f"Video processing failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Video processing failed: {str(e)}")
 
     doc_in = DocumentCreate(
         filename=file.filename,
         filetype=filetype,
-        content=summary.get("combined_text", ""),
-        metadata={"video_summary": summary},
-        processing_result=text_data
+        content=combined_text,
+        metadata={"frames_extracted": frames_extracted, "preview_frames": preview_frames}
     )
     db_doc = create_document(db, doc_in, status='completed')
-
-    for frame in text_data:
-        if frame.get('has_text'):
-            frame_create = VideoFrameCreate(
-                document_id=db_doc.id,
-                frame_number=frame.get('frame_number'),
-                content=frame.get('text_extracted')
-            )
-            create_video_frame(db, frame_create)
-
-    return db_doc
+    # Return extra fields for test script compatibility
+    return {**db_doc.__dict__, "frames_extracted": frames_extracted, "preview_frames": preview_frames}
 
 # Document processing endpoints
 @app.post("/api/v1/documents/upload", response_model=DocumentOut)
