@@ -8,7 +8,7 @@ from .models import (
 from app.schemas.document import DocumentCreate, DocumentUpdate
 from app.schemas.knowledge import (
     EntityCreate, RelationshipCreate, ContentCategoryCreate,
-    KeyPhraseCreate, DocumentStructureCreate
+    KeyPhraseCreate, DocumentStructureCreate, VideoFrameCreate
 )
 
 # Document CRUD operations
