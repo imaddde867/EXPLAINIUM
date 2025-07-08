@@ -59,6 +59,20 @@ def validate_file_type(filename: str, allowed_types: List[str]) -> bool:
     file_ext = get_file_extension(filename)
     return file_ext in [ext.lower() for ext in allowed_types]
 
+SUPPORTED_TYPES = {
+    '.pdf': 'pdf', '.docx': 'docx', '.txt': 'txt', '.md': 'txt',
+    '.png': 'image', '.jpg': 'image', '.jpeg': 'image', '.gif': 'image', 
+    '.bmp': 'image', '.tiff': 'image',
+    '.mp4': 'video', '.avi': 'video', '.mov': 'video', '.mkv': 'video',
+}
+
+def detect_file_type(filename: str) -> Union[str, Literal['unsupported']]:
+    """Detect file type based on extension"""
+    if not filename:
+        return 'unsupported'
+    ext = os.path.splitext(filename)[1].lower()
+    return SUPPORTED_TYPES.get(ext, 'unsupported')
+
 def clean_text(text: str, remove_extra_whitespace: bool = True, 
                remove_special_chars: bool = False) -> str:
     """

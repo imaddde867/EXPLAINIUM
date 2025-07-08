@@ -3,20 +3,16 @@ EXPLAINIUM PH-1 - Smart Knowledge Extraction System
 Main FastAPI application for document processing and knowledge extraction
 """
 
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Form, Request
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Query, Request
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import List, Optional
-from PIL import Image
-import pytesseract
-import io
-import time
 import logging
 
 # Import application modules
-from app.ingestion.router import detect_file_type, validate_file_strict
+from app.ingestion.router import validate_file_strict
 from app.extraction.text import extract_text_pdf, extract_text_docx, extract_text_txt
 from app.extraction.knowledge import extract_entities, extract_relationships, classify_content
 from app.db.session import SessionLocal, get_db_info
@@ -28,9 +24,11 @@ from app.db.crud import (
 from app.schemas.document import DocumentCreate, DocumentOut, DocumentSummary
 from app.schemas.knowledge import (
     EntityOut, RelationshipOut, ContentCategoryOut, EntityCreate, 
-    ContentCategoryCreate, SearchRequest, SearchResponse, KnowledgeExtractionStats,
+    ContentCategoryCreate, KnowledgeExtractionStats,
     VideoFrameCreate, VideoFrameOut, RelationshipCreate
 )
+from app.middleware import exception_handler
+from app.utils.helpers import detect_file_type
 
 # Configure logging
 logging.basicConfig(
@@ -52,13 +50,8 @@ app = FastAPI(
 )
 
 # Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.middleware("http")(exception_handler)
 
 # Database dependency
 def get_db():

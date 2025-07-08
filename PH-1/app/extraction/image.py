@@ -1,4 +1,4 @@
-"""
+
 EXPLAINIUM Image Processing Module
 
 This module provides image processing and OCR capabilities including:
@@ -16,8 +16,6 @@ from PIL import Image, ImageEnhance, ImageFilter
 from fastapi import UploadFile, HTTPException
 from typing import Optional, Dict, List, Tuple
 import io
-import tempfile
-import os
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -82,7 +80,7 @@ def extract_text_from_image(file: UploadFile, preprocess: bool = True) -> Option
             image = preprocess_image_for_ocr(image)
         
         # Configure Tesseract options for better accuracy
-        custom_config = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?-()[]{}:;"\'\ '
+        custom_config = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,!?-()[]{}:;"\'\ '"
         
         # Extract text
         text = pytesseract.image_to_string(image, config=custom_config)
