@@ -33,3 +33,10 @@ pytest-asyncio==0.24.0
 black==24.10.0
 flake8==7.1.1
 isort==5.13.2
+
+# Phase 2: Intelligence Layer dependencies
+sentence-transformers==2.7.0
+chromadb==0.4.24
+neo4j==5.19.0
+# For LLM integration (optional, for local or API-based LLMs)
+openai==1.30.1
