@@ -23,12 +23,13 @@ from app.db.session import SessionLocal, get_db_info
 from app.db.crud import (
     create_document, get_document, get_documents, create_entity, create_relationship,
     create_category, get_entities_by_document, get_categories_by_document,
-    get_knowledge_stats, search_entities
+    get_knowledge_stats, search_entities, create_video_frame, get_video_frames_by_document
 )
 from app.schemas.document import DocumentCreate, DocumentOut, DocumentSummary
 from app.schemas.knowledge import (
     EntityOut, RelationshipOut, ContentCategoryOut, EntityCreate, 
-    ContentCategoryCreate, SearchRequest, SearchResponse, KnowledgeExtractionStats
+    ContentCategoryCreate, SearchRequest, SearchResponse, KnowledgeExtractionStats,
+    VideoFrameCreate, VideoFrameOut
 )
 
 # Configure logging
@@ -117,6 +118,7 @@ def process_document_content(file: UploadFile, db: Session):
     try:
         # Extract entities
         entities = extract_entities(content)
+        db_entities = []
         for entity in entities:
             entity_create = EntityCreate(
                 document_id=db_doc.id,
@@ -126,8 +128,23 @@ def process_document_content(file: UploadFile, db: Session):
                 start_position=entity.start,
                 end_position=entity.end
             )
-            create_entity(db, entity_create)
+            db_entities.append(create_entity(db, entity_create))
         
+        # Extract relationships
+        relationships = extract_relationships(content, entities)
+        for rel in relationships:
+            source_entity = next((e for e in db_entities if e.text == rel.source_entity), None)
+            target_entity = next((e for e in db_entities if e.text == rel.target_entity), None)
+            if source_entity and target_entity:
+                rel_create = RelationshipCreate(
+                    source_entity_id=source_entity.id,
+                    target_entity_id=target_entity.id,
+                    relationship_type=rel.relationship_type,
+                    confidence=rel.confidence,
+                    context=rel.context
+                )
+                create_relationship(db, rel_create)
+
         # Classify content
         categories = classify_content(content)
         for category in categories:
@@ -152,6 +169,59 @@ def process_document_content(file: UploadFile, db: Session):
         db.commit()
         raise HTTPException(status_code=500, detail=f"Knowledge extraction failed: {str(e)}")
 
+# API Endpoints
+@app.post("/api/v1/images/upload", response_model=DocumentOut)
+async def upload_image(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """Upload and process image"""
+    validate_file_strict(file)
+    filetype = detect_file_type(file.filename)
+    if filetype != 'image':
+        raise HTTPException(status_code=400, detail="Only image files are supported.")
+
+    from app.extraction.image import extract_text_from_image
+    content = extract_text_from_image(file)
+    doc_in = DocumentCreate(
+        filename=file.filename,
+        filetype=filetype,
+        content=content,
+        metadata={"content_length": len(content) if content else 0}
+    )
+    db_doc = create_document(db, doc_in, status='completed')
+    return db_doc
+
+@app.post("/api/v1/videos/upload", response_model=DocumentOut)
+async def upload_video(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """Upload and process video"""
+    validate_file_strict(file)
+    filetype = detect_file_type(file.filename)
+    if filetype != 'video':
+        raise HTTPException(status_code=400, detail="Only video files are supported.")
+
+    from app.extraction.video import extract_video_keyframes, extract_text_from_video_frames, get_video_text_summary
+    frames_data = extract_video_keyframes(file, frame_interval=60, max_frames=10)
+    text_data = extract_text_from_video_frames(frames_data)
+    summary = get_video_text_summary(text_data)
+
+    doc_in = DocumentCreate(
+        filename=file.filename,
+        filetype=filetype,
+        content=summary.get("combined_text", ""),
+        metadata={"video_summary": summary},
+        processing_result=text_data
+    )
+    db_doc = create_document(db, doc_in, status='completed')
+
+    for frame in text_data:
+        if frame.get('has_text'):
+            frame_create = VideoFrameCreate(
+                document_id=db_doc.id,
+                frame_number=frame.get('frame_number'),
+                content=frame.get('text_extracted')
+            )
+            create_video_frame(db, frame_create)
+
+    return db_doc
+
 # Document processing endpoints
 @app.post("/api/v1/documents/upload", response_model=DocumentOut)
 def upload_document(file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -170,6 +240,14 @@ def get_document_details(doc_id: int, db: Session = Depends(get_db)):
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
     return document
+
+@app.get("/api/v1/documents/{doc_id}/content", response_model=str)
+def get_document_content(doc_id: int, db: Session = Depends(get_db)):
+    """Get extracted content of a document"""
+    document = get_document(db, doc_id)
+    if not document:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return document.content
 
 @app.get("/api/v1/documents", response_model=List[DocumentSummary])
 def list_documents(
@@ -221,6 +299,16 @@ def get_document_categories(doc_id: int, db: Session = Depends(get_db)):
     categories = get_categories_by_document(db, doc_id)
     return categories
 
+@app.get("/api/v1/videos/{doc_id}/frames", response_model=List[VideoFrameOut])
+def get_video_frames(doc_id: int, db: Session = Depends(get_db)):
+    """Get video frame analysis"""
+    document = get_document(db, doc_id)
+    if not document or document.filetype != 'video':
+        raise HTTPException(status_code=404, detail="Video document not found")
+    
+    frames = get_video_frames_by_document(db, doc_id)
+    return frames
+
 @app.get("/api/v1/knowledge/stats", response_model=KnowledgeExtractionStats)
 def get_extraction_stats(db: Session = Depends(get_db)):
     """Get knowledge extraction statistics"""
@@ -237,7 +325,7 @@ def get_extraction_stats(db: Session = Depends(get_db)):
         average_confidence=stats["average_confidence"]["entities"]
     )
 
-@app.post("/api/v1/knowledge/search", response_model=List[EntityOut])
+@app.post("/api/v1/search/entities", response_model=List[EntityOut])
 def search_knowledge(
     query: str = Query(..., min_length=2),
     entity_types: Optional[List[str]] = Query(None),
@@ -255,56 +343,7 @@ def search_knowledge(
     )
     return entities
 
-@app.post("/upload-ui", response_class=HTMLResponse)
-async def upload_ui(
-    request: Request,
-    file: UploadFile = File(...),
-    upload_type: str = Form(...),
-    db: Session = Depends(get_db)
-):
-    """Handle file uploads from the web interface"""
-    result = {"type": upload_type, "filename": file.filename}
-    
-    try:
-        if upload_type == "document":
-            db_doc, entities, categories = process_document_content(file, db)
-            result.update({
-                "content": db_doc.content,
-                "entities_extracted": len(entities),
-                "categories_identified": len(categories),
-                "doc_id": db_doc.id
-            })
-        elif upload_type == "image":
-            image_bytes = await file.read()
-            image = Image.open(io.BytesIO(image_bytes))
 
-            # Perform OCR
-            ocr_text = pytesseract.image_to_string(image)
-            
-            result["ocr_text"] = ocr_text
-
-        elif upload_type == "video":
-            from app.extraction.video import extract_video_keyframes, extract_text_from_video_frames, get_video_text_summary
-            
-            # Extract video frames
-            frames_data = extract_video_keyframes(file, frame_interval=60, max_frames=10)
-            
-            # Extract text from frames
-            text_data = extract_text_from_video_frames(frames_data)
-            summary = get_video_text_summary(text_data)
-            
-            result.update({
-                "frames_extracted": len(frames_data),
-                "frames_with_text": summary.get("frames_with_text", 0),
-                "total_text_extracted": summary.get("combined_text_length", 0),
-                "text_summary": summary.get("combined_text", "")[:500] + "..." if len(summary.get("combined_text", "")) > 500 else summary.get("combined_text", ""),
-                "extraction_success": summary.get("extraction_success", False)
-            })
-    except Exception as e:
-        logger.error(f"Upload processing failed: {e}")
-        result["error"] = f"Upload processing failed: {str(e)}"
-    
-    return templates.TemplateResponse("index.html", {"request": request, "result": result})
 
 @app.get("/info", response_class=HTMLResponse)
 def api_info(request: Request):

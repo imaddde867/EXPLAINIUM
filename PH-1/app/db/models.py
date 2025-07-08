@@ -16,6 +16,7 @@ class Document(Base):
     content = Column(Text)
     # naming conflict in SQLAlchemy with 'metadata', using 'document_metadata' instead
     document_metadata = Column("metadata",JSON)
+    processing_result = Column("processing_result",JSON)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
@@ -104,7 +105,7 @@ class DocumentStructure(Base):
     # Relationships
     document = relationship("Document", back_populates="structures")
 
-    
+
 class VideoFrame(Base):
     """ Video frame model for storing frames extracted from video documents """
     __tablename__ = 'video_frames'
@@ -113,7 +114,7 @@ class VideoFrame(Base):
     document_id = Column(Integer, ForeignKey('documents.id'), nullable=False)
     frame_number = Column(Integer, nullable=False)
     content = Column(Text, nullable=False)
-      
+    
     # relationships
     document = relationship("Document", back_populates="video_frames")
 

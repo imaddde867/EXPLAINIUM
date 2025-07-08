@@ -15,6 +15,7 @@ class DocumentCreate(BaseModel):
     filetype: str = Field(..., description="Document file type")
     content: Optional[str] = Field(None, description="Extracted text content")
     metadata: Optional[Dict[str, Any]] = Field(None, description="Additional metadata")
+    processing_result: Optional[Dict[str, Any]] = Field(None, description="Processing results for video frames")
 
 class DocumentUpdate(BaseModel):
     """Document update model"""
@@ -26,6 +27,7 @@ class DocumentOut(DocumentBase):
     """Document output model"""
     id: int
     metadata: Optional[Dict[str, Any]] = Field(None, alias="document_metadata") 
+    processing_result: Optional[Dict[str, Any]] = Field(None, alias="processing_result") 
     created_at: datetime
     updated_at: Optional[datetime] = None
 

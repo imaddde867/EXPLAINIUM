@@ -206,3 +206,20 @@ class BatchProcessingResponse(BaseModel):
     status: str
     estimated_completion_time: Optional[datetime] = None
     created_at: datetime
+
+class VideoFrameBase(BaseModel):
+    """Base video frame model"""
+    frame_number: int = Field(..., description="Frame number in the video")
+    content: str = Field(..., description="Extracted text content from the frame")
+
+class VideoFrameCreate(VideoFrameBase):
+    """Video frame creation model"""
+    document_id: int = Field(..., description="Associated document ID")
+
+class VideoFrameOut(VideoFrameBase):
+    """Video frame output model"""
+    id: int
+    document_id: int
+
+    class Config:
+        from_attributes = True

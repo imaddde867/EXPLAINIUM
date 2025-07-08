@@ -3,7 +3,7 @@ from sqlalchemy import and_, or_, func
 from typing import List, Optional, Dict, Any
 from .models import (
     Document, KnowledgeEntity, KnowledgeRelationship,
-    ContentCategory, KeyPhrase, DocumentStructure
+    ContentCategory, KeyPhrase, DocumentStructure, VideoFrame
 )
 from app.schemas.document import DocumentCreate, DocumentUpdate
 from app.schemas.knowledge import (
@@ -19,6 +19,7 @@ def create_document(db: Session, doc: DocumentCreate, status: str = 'pending') -
         filetype=doc.filetype,
         content=doc.content,
         document_metadata=doc.metadata,
+        processing_result=doc.processing_result,
         status=status
     )
     db.add(db_doc)
@@ -172,6 +173,23 @@ def create_structure(db: Session, structure: DocumentStructureCreate) -> Documen
 def get_structures_by_document(db: Session, doc_id: int) -> List[DocumentStructure]:
     """Get all structures for a document"""
     return db.query(DocumentStructure).filter(DocumentStructure.document_id == doc_id).all()
+
+# VideoFrame CRUD operations
+def create_video_frame(db: Session, frame: VideoFrameCreate) -> VideoFrame:
+    """Create a new video frame"""
+    db_frame = VideoFrame(
+        document_id=frame.document_id,
+        frame_number=frame.frame_number,
+        content=frame.content
+    )
+    db.add(db_frame)
+    db.commit()
+    db.refresh(db_frame)
+    return db_frame
+
+def get_video_frames_by_document(db: Session, doc_id: int) -> List[VideoFrame]:
+    """Get all video frames for a document"""
+    return db.query(VideoFrame).filter(VideoFrame.document_id == doc_id).all()
 
 # Search and analytics functions
 def search_entities(
